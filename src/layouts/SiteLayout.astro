@@ -26,7 +26,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet" />
     <script type="application/ld+json" set:html={JSON.stringify(business)} />
   </head>
-  <body data-route={route}>
+  <body data-route={route} data-turnstile-site-key={import.meta.env.PUBLIC_TURNSTILE_SITE_KEY || undefined}>
     <Header route={route} />
     <main id="main" tabindex="-1"><slot /></main>
     <Footer />

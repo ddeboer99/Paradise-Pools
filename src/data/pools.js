@@ -38,24 +38,71 @@ export const poolModels = [
     plunge: ["enchantment", "milan", "plunge-pools"]
   };
 
-export function poolModelFacets(model) {
-    const toFeet = (feet, inches = 0) => Number(feet) + Number(inches || 0) / 12;
-    const lengths = [...model.dimensions.matchAll(/(\d+(?:\.\d+)?)\s*ft(?:\s+(\d+)\s*in)?\s*x\s*(\d+(?:\.\d+)?)\s*ft(?:\s+(\d+)\s*in)?/gi)]
-      .map((match) => Math.max(toFeet(match[1], match[2]), toFeet(match[3], match[4])));
-    const depthRanges = [...model.dimensions.matchAll(/depth\s+(\d+(?:\.\d+)?)\s*ft(?:\s+(\d+)\s*in)?(?:\s+to\s+(\d+(?:\.\d+)?)\s*ft(?:\s+(\d+)\s*in)?)?/gi)]
-      .map((match) => [toFeet(match[1], match[2]), toFeet(match[3] || match[1], match[4] || match[2])]);
-    const featureRules = [
-      ["tanning-ledge", /tanning ledge/i],
-      ["spa", /spa/i],
-      ["swim-up-seating", /swim-up seating/i],
-      ["auto-cover", /auto-cover ready/i],
-      ["swim-lane", /swim lane/i],
-      ["wading-area", /wading area/i]
-    ];
+// Associate each listed shell's length with its own depth; collection-wide
+// arrays let one shell's size incorrectly match a different shell's depth.
+export function poolVariants(model) {
+  const toFeet = (feet, inches) => Number(feet) + Number(inches ?? 0) / 12;
+  const dimensions = [...model.dimensions.matchAll(/(\d+(?:\.\d+)?)\s*ft(?:\s+(\d+)\s*in)?\s*x\s*(\d+(?:\.\d+)?)\s*ft(?:\s+(\d+)\s*in)?/gi)];
+  return dimensions.map((match, index) => {
+    const details = model.dimensions.slice(match.index + match[0].length, dimensions[index + 1]?.index);
+    const depth = details.match(/depth\s+(\d+(?:\.\d+)?)\s*ft(?:\s+(\d+)\s*in)?(?:\s+to\s+(\d+(?:\.\d+)?)\s*ft(?:\s+(\d+)\s*in)?)?/i);
     return {
-      shapes: Object.entries(poolModelShapeIds).filter(([, ids]) => ids.includes(model.id)).map(([shape]) => shape),
-      lengths,
-      depthRanges,
-      features: featureRules.filter(([, pattern]) => pattern.test(`${model.features} ${model.type}`)).map(([feature]) => feature)
+      length: Math.max(toFeet(match[1], match[2]), toFeet(match[3], match[4])),
+      minDepth: depth ? toFeet(depth[1], depth[2]) : null,
+      maxDepth: depth ? (depth[3] === undefined ? toFeet(depth[1], depth[2]) : toFeet(depth[3], depth[4])) : null,
     };
-  }
+  });
+}
+
+export function poolModelFacets(model) {
+  const variants = poolVariants(model);
+  const featureRules = [
+    ['tanning-ledge', /\btanning[ -]ledge\b/i],
+    ['spa', /\bspa\b/i],
+    ['swim-up-seating', /\bswim[ -]up seating\b/i],
+    ['auto-cover', /\bauto(?:matic)?[ -]cover[ -]ready\b/i],
+    ['swim-lane', /\bswim lane\b/i],
+    ['wading-area', /\bwading area\b/i],
+  ];
+  return {
+    shapes: Object.entries(poolModelShapeIds).filter(([, ids]) => ids.includes(model.id)).map(([shape]) => shape),
+    variants,
+    lengths: variants.map(variant => variant.length),
+    depthRanges: variants.filter(variant => variant.maxDepth !== null).map(variant => [variant.minDepth, variant.maxDepth]),
+    features: featureRules.filter(([, pattern]) => pattern.test(`${model.features} ${model.type}`)).map(([feature]) => feature),
+  };
+}
+
+export function matchingPoolVariants(model, filters = {}) {
+  return poolVariants(model).filter(({ length, maxDepth }) => {
+    const sizeMatches = !filters.size || (filters.size === 'small' ? length <= 25 : filters.size === 'medium' ? length > 25 && length <= 35 : length > 35);
+    const depthMatches = !filters.depth || (maxDepth !== null && (filters.depth === 'over-7' ? maxDepth > 7 : maxDepth <= Number(filters.depth)));
+    return sizeMatches && depthMatches;
+  });
+}
+
+export function matchesPool(model, filters = {}) {
+  const facets = poolModelFacets(model);
+  const query = (filters.search || '').trim().toLowerCase();
+  const text = [model.name, model.type, model.sizes, model.dimensions, model.features].join(' ').toLowerCase();
+  return (!query || text.includes(query))
+    && (!filters.shape || facets.shapes.includes(filters.shape))
+    && (!filters.feature || facets.features.includes(filters.feature))
+    && ((!filters.size && !filters.depth) || matchingPoolVariants(model, filters).length > 0);
+}
+
+export function comparePoolModels(first, second, sort = 'recommended', filters = {}) {
+  const alphabetical = () => first.name.localeCompare(second.name);
+  if (sort === 'recommended') return (first.featuredOrder ?? 99) - (second.featuredOrder ?? 99) || alphabetical();
+  if (sort === 'name') return alphabetical();
+  const metric = model => {
+    const variants = matchingPoolVariants(model, filters);
+    const values = variants.map(variant => ['smallest', 'largest'].includes(sort) ? variant.length : variant.maxDepth).filter(value => value !== null);
+    if (!values.length) return null;
+    return ['largest', 'deepest'].includes(sort) ? Math.max(...values) : Math.min(...values);
+  };
+  const a = metric(first), b = metric(second);
+  // Unknown dimensions stay last in both ascending and descending sorts.
+  if (a === null || b === null) return a === b ? alphabetical() : a === null ? 1 : -1;
+  return (['largest', 'deepest'].includes(sort) ? b - a : a - b) || alphabetical();
+}

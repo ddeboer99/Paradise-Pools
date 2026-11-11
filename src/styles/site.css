@@ -571,3 +571,14 @@ h1 em, h2 em { color: var(--lime); font-weight: 500; }
 :where(a, button, input, select, textarea, summary):focus-visible { outline: 3px solid #d87913; outline-offset: 4px; }
 main [id] { scroll-margin-top: 120px; }
 @media (max-width: 900px) { main [id] { scroll-margin-top: 88px; } }
+
+.form-honeypot { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.form-verification, .form-availability, [data-form-status], [data-submission-form] noscript { grid-column: 1 / -1; min-width: 0; }
+.form-verification:empty { display: none; }
+.form-availability { margin: 0; font-size: 13px; line-height: 1.6; }
+.form-availability[hidden] { display: none; }
+.form-availability a { text-decoration: underline; text-underline-offset: 3px; }
+[data-form-status] { font-size: 14px; line-height: 1.6; }
+[data-form-status][data-state="error"] { color: #9c2525; }
+[data-form-status][data-state="success"] { color: #176140; }
+[data-submission-form] button:disabled { opacity: .6; cursor: not-allowed; transform: none; }

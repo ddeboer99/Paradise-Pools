@@ -1,0 +1,8 @@
+# Local-only example: copy to .dev.vars and keep that file out of Git.
+# Leave credentials blank until approved setup/testing. No email is sent without them.
+RESEND_API_KEY=
+TURNSTILE_SECRET_KEY=
+FORM_FROM_EMAIL=
+CONTACT_TO_EMAIL=service@thinkparadisepools.com
+FEEDBACK_TO_EMAIL=service@thinkparadisepools.com
+FORM_ALLOWED_ORIGINS=http://127.0.0.1:4174,http://localhost:4174

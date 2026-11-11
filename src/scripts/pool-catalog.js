@@ -1,4 +1,4 @@
-import { poolModels } from "../data/pools.js";
+import { poolModels, matchesPool, comparePoolModels } from "../data/pools.js";
     function renderPoolComparison(root, models) {
       const selected = [...root.querySelectorAll(".model-compare-toggle input:checked")]
         .map((input) => models.find((model) => model.id === input.value))
@@ -38,76 +38,31 @@ import { poolModels } from "../data/pools.js";
       update();
     }
 
-  function bindPoolFilters(root) {
-    const grid = root.querySelector(".pool-model-grid");
-    const cards = [...grid.querySelectorAll(".pool-model-card")];
-    const search = root.querySelector('[data-pool-filter="search"]');
-    const shape = root.querySelector('[data-pool-filter="shape"]');
-    const size = root.querySelector('[data-pool-filter="size"]');
-    const depth = root.querySelector('[data-pool-filter="depth"]');
-    const feature = root.querySelector('[data-pool-filter="feature"]');
-    const sort = root.querySelector('[data-pool-filter="sort"]');
-    const results = root.querySelector("[data-pool-results]");
-    const emptyState = root.querySelector("[data-pool-empty]");
-    const numbers = (value) => value ? value.split(",").map(Number).filter(Number.isFinite) : [];
-    const ranges = (value) => value ? value.split(";").map((range) => range.split(",").map(Number)) : [];
-
-    const sortCards = () => {
-      const metric = (card, key) => {
-        const values = key === "lengths" ? numbers(card.dataset.lengths) : ranges(card.dataset.depthRanges).flat();
-        if (!values.length) return key === "lengths" ? Infinity : 0;
-        if (key === "lengths") return sort.value === "smallest" ? Math.min(...values) : Math.max(...values);
-        return sort.value === "shallowest" ? Math.min(...values) : Math.max(...values);
-      };
-      cards.sort((first, second) => {
-        if (sort.value === "recommended") {
-          const featuredDifference = Number(first.dataset.featuredOrder || 99) - Number(second.dataset.featuredOrder || 99);
-          return featuredDifference || first.querySelector(".model-name").textContent.localeCompare(second.querySelector(".model-name").textContent);
-        }
-        if (sort.value === "name") return first.querySelector(".model-name").textContent.localeCompare(second.querySelector(".model-name").textContent);
-        const key = ["smallest", "largest"].includes(sort.value) ? "lengths" : "depths";
-        const difference = metric(first, key) - metric(second, key);
-        return ["largest", "deepest"].includes(sort.value) ? -difference : difference;
-      });
-      cards.forEach((card) => grid.append(card));
-    };
-
-    const update = () => {
-      const query = search.value.trim().toLowerCase();
-      let visibleCount = 0;
-      cards.forEach((card) => {
-        const modelShapes = card.dataset.shapes.split(",");
-        const modelFeatures = card.dataset.features.split(",");
-        const modelLengths = numbers(card.dataset.lengths);
-        const modelDepths = ranges(card.dataset.depthRanges);
-        const matchesSize = !size.value || modelLengths.some((length) => size.value === "small" ? length <= 25 : size.value === "medium" ? length > 25 && length <= 35 : length > 35);
-        const matchesDepth = !depth.value || modelDepths.some(([, maximum]) => depth.value === "over-7" ? maximum > 7 : maximum <= Number(depth.value));
-        const matches = (!query || card.textContent.toLowerCase().includes(query))
-          && (!shape.value || modelShapes.includes(shape.value))
-          && matchesSize
-          && matchesDepth
-          && (!feature.value || modelFeatures.includes(feature.value));
-        card.hidden = !matches;
-        if (matches) visibleCount += 1;
-      });
-      results.textContent = `Showing ${visibleCount} of ${cards.length} models`;
-      emptyState.hidden = visibleCount > 0;
-    };
-
-    [search, shape, size, depth, feature, sort].forEach((control) => control.addEventListener(control === search ? "input" : "change", () => {
-      sortCards();
-      update();
-    }));
-    root.querySelector("[data-clear-pool-filters]").addEventListener("click", () => {
-      [search, shape, size, depth, feature].forEach((control) => { control.value = ""; });
-      sort.value = "recommended";
-      sortCards();
-      update();
-    });
-    sortCards();
+function bindPoolFilters(root) {
+  const grid = root.querySelector('.pool-model-grid');
+  const entries = [...grid.querySelectorAll('.pool-model-card')].map(card => ({ card, model: poolModels.find(model => model.id === card.dataset.modelId) }));
+  const controls = Object.fromEntries([...root.querySelectorAll('[data-pool-filter]')].map(control => [control.dataset.poolFilter, control]));
+  const results = root.querySelector('[data-pool-results]');
+  const emptyState = root.querySelector('[data-pool-empty]');
+  const update = () => {
+    const filters = Object.fromEntries(Object.entries(controls).map(([key, control]) => [key, control.value]));
+    let visible = 0;
+    entries.sort((a, b) => comparePoolModels(a.model, b.model, filters.sort, filters));
+    for (const { card, model } of entries) {
+      card.hidden = !matchesPool(model, filters);
+      if (!card.hidden) visible++;
+      grid.append(card);
+    }
+    results.textContent = `Showing ${visible} of ${entries.length} models`;
+    emptyState.hidden = visible > 0;
+  };
+  for (const [name, control] of Object.entries(controls)) control.addEventListener(name === 'search' ? 'input' : 'change', update);
+  root.querySelector('[data-clear-pool-filters]').addEventListener('click', () => {
+    for (const [name, control] of Object.entries(controls)) control.value = name === 'sort' ? 'recommended' : '';
     update();
-  }
-
+  });
+  update();
+}
 
 export function initializeCatalog(root) {
   bindPoolFilters(root);
