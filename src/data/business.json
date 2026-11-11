@@ -1,0 +1,42 @@
+{
+  "@context": "https://schema.org",
+  "@type": "GeneralContractor",
+  "name": "Paradise Pools",
+  "url": "https://thinkparadisepools.com/",
+  "foundingDate": "1963",
+  "description": "Pool construction, service and supplies serving Michiana since 1963.",
+  "areaServed": [
+    "Elkhart, Indiana",
+    "Granger, Indiana",
+    "Michiana"
+  ],
+  "email": "service@thinkparadisepools.com",
+  "department": [
+    {
+      "@type": "HomeAndConstructionBusiness",
+      "name": "Paradise Pools Elkhart",
+      "telephone": "+1-574-264-2488",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "655 County Road 17, Suite 11",
+        "addressLocality": "Elkhart",
+        "addressRegion": "IN",
+        "postalCode": "46516",
+        "addressCountry": "US"
+      }
+    },
+    {
+      "@type": "HomeAndConstructionBusiness",
+      "name": "Paradise Pools Granger",
+      "telephone": "+1-574-277-6444",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "15065 State Road 23",
+        "addressLocality": "Granger",
+        "addressRegion": "IN",
+        "postalCode": "46530",
+        "addressCountry": "US"
+      }
+    }
+  ]
+}

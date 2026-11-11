@@ -1,0 +1,17 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { pages, renderPage } from '../content/pages.js';
+import { routePaths } from '../data/routes.js';
+
+export function getStaticPaths() {
+  return Object.entries(routePaths).map(([route, path]) => ({
+    params: { page: path === '/' ? undefined : path.replace(/^\/|\/$/g, '') },
+    props: { route },
+  }));
+}
+const { route } = Astro.props;
+const page = pages[route];
+---
+<SiteLayout route={route} title={page.title} description={page.description}>
+  <Fragment set:html={renderPage(route)} />
+</SiteLayout>
