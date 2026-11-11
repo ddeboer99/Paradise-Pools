@@ -10,7 +10,7 @@ export function localizeImages(html) {
     const source = tag.match(/\bsrc="([^"]+)"/)?.[1];
     const image = images[source];
     if (!image) return tag;
-    const sizes = tag.includes('alt=""') ? '84px' : tag.includes('faq-product-image') ? '260px' : defaultSizes;
+    const sizes = tag.includes('alt=""') ? '84px' : tag.includes('faq-product-image') ? '260px' : tag.includes('gallery-photo') ? '(max-width: 620px) 86vw, (max-width: 900px) 42vw, 27vw' : defaultSizes;
     return tag.replace(/\bsrc="[^"]+"/, `src="${image.src}"`)
       .replace(/\s*\/?\s*>$/, ` width="${image.width}" height="${image.height}" srcset="${sourceSet(image)}" sizes="${sizes}" decoding="async">`);
   });

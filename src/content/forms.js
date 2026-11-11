@@ -10,7 +10,7 @@ function protection(type) {
     <p class="${type === 'contact' ? 'form-status' : 'review-status'}" data-form-status role="status" aria-live="polite" aria-atomic="true" tabindex="-1"></p>`;
 }
 export function quoteForm(compact = false) {
-  return `<form class="inquiry-form${compact ? ' compact-form' : ''}" data-inquiry-form data-submission-form="contact" action="/api/contact" method="post">
+  return `<form id="contact-inquiry" class="inquiry-form${compact ? ' compact-form' : ''}" data-inquiry-form data-submission-form="contact" action="/api/contact" method="post">
     <div class="form-intro"><p class="eyebrow">A good place to start</p><h2>${compact ? 'What can we help with?' : 'Send us a note.'}</h2><p>Share a few details so our team can follow up with you.</p></div>
     <div class="form-fields">
       <label>Your name <span>*</span><input name="name" autocomplete="name" maxlength="100" required></label>

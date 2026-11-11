@@ -11,5 +11,7 @@ export const routePaths = {
   "locations": "/locations/",
   "elkhart-store": "/elkhart-store/",
   "granger-store": "/granger-store/",
+  "photo-gallery": "/photo-gallery/",
+  "seasonal-service": "/service/pool-opening-and-closing-contract/",
   "contact": "/contact/"
 };

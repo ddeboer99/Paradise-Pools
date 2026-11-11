@@ -873,6 +873,398 @@
       }
     ]
   },
+  "https://thinkparadisepools.com/wp-content/uploads/acapulco_paradise-pools.jpg": {
+    "src": "/assets/images/acapulco-paradise-pools-8bccd836106003d2-1199.webp",
+    "width": 1199,
+    "height": 800,
+    "originalBytes": 250922,
+    "sources": [
+      {
+        "src": "/assets/images/acapulco-paradise-pools-8bccd836106003d2-480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 27032
+      },
+      {
+        "src": "/assets/images/acapulco-paradise-pools-8bccd836106003d2-960.webp",
+        "width": 960,
+        "height": 641,
+        "bytes": 107000
+      },
+      {
+        "src": "/assets/images/acapulco-paradise-pools-8bccd836106003d2-1199.webp",
+        "width": 1199,
+        "height": 800,
+        "bytes": 160110
+      }
+    ]
+  },
+  "https://thinkparadisepools.com/wp-content/uploads/bermuda_paradise-pools.jpg": {
+    "src": "/assets/images/bermuda-paradise-pools-2d7486e1627afd93-709.webp",
+    "width": 709,
+    "height": 800,
+    "originalBytes": 169263,
+    "sources": [
+      {
+        "src": "/assets/images/bermuda-paradise-pools-2d7486e1627afd93-480.webp",
+        "width": 480,
+        "height": 542,
+        "bytes": 54130
+      },
+      {
+        "src": "/assets/images/bermuda-paradise-pools-2d7486e1627afd93-709.webp",
+        "width": 709,
+        "height": 800,
+        "bytes": 113198
+      }
+    ]
+  },
+  "https://thinkparadisepools.com/wp-content/uploads/cancun2_paradise-pools.jpg": {
+    "src": "/assets/images/cancun2-paradise-pools-a366952bb4596df6-845.webp",
+    "width": 845,
+    "height": 634,
+    "originalBytes": 149041,
+    "sources": [
+      {
+        "src": "/assets/images/cancun2-paradise-pools-a366952bb4596df6-480.webp",
+        "width": 480,
+        "height": 360,
+        "bytes": 37838
+      },
+      {
+        "src": "/assets/images/cancun2-paradise-pools-a366952bb4596df6-845.webp",
+        "width": 845,
+        "height": 634,
+        "bytes": 115692
+      }
+    ]
+  },
+  "https://thinkparadisepools.com/wp-content/uploads/cancun3_paradise-pools.jpg": {
+    "src": "/assets/images/cancun3-paradise-pools-200003a184fc61d6-1127.webp",
+    "width": 1127,
+    "height": 800,
+    "originalBytes": 370419,
+    "sources": [
+      {
+        "src": "/assets/images/cancun3-paradise-pools-200003a184fc61d6-480.webp",
+        "width": 480,
+        "height": 341,
+        "bytes": 52424
+      },
+      {
+        "src": "/assets/images/cancun3-paradise-pools-200003a184fc61d6-960.webp",
+        "width": 960,
+        "height": 681,
+        "bytes": 193568
+      },
+      {
+        "src": "/assets/images/cancun3-paradise-pools-200003a184fc61d6-1127.webp",
+        "width": 1127,
+        "height": 800,
+        "bytes": 257980
+      }
+    ]
+  },
+  "https://thinkparadisepools.com/wp-content/uploads/cancun4_paradise-pools.jpg": {
+    "src": "/assets/images/cancun4-paradise-pools-b2074d7a2cd7eb21-1261.webp",
+    "width": 1261,
+    "height": 800,
+    "originalBytes": 366588,
+    "sources": [
+      {
+        "src": "/assets/images/cancun4-paradise-pools-b2074d7a2cd7eb21-480.webp",
+        "width": 480,
+        "height": 305,
+        "bytes": 45038
+      },
+      {
+        "src": "/assets/images/cancun4-paradise-pools-b2074d7a2cd7eb21-960.webp",
+        "width": 960,
+        "height": 609,
+        "bytes": 151678
+      },
+      {
+        "src": "/assets/images/cancun4-paradise-pools-b2074d7a2cd7eb21-1261.webp",
+        "width": 1261,
+        "height": 800,
+        "bytes": 232950
+      }
+    ]
+  },
+  "https://thinkparadisepools.com/wp-content/uploads/cancun5_paradise-pools.jpg": {
+    "src": "/assets/images/cancun5-paradise-pools-df9fab1c1e48d61f-1204.webp",
+    "width": 1204,
+    "height": 800,
+    "originalBytes": 349113,
+    "sources": [
+      {
+        "src": "/assets/images/cancun5-paradise-pools-df9fab1c1e48d61f-480.webp",
+        "width": 480,
+        "height": 319,
+        "bytes": 40154
+      },
+      {
+        "src": "/assets/images/cancun5-paradise-pools-df9fab1c1e48d61f-960.webp",
+        "width": 960,
+        "height": 638,
+        "bytes": 155070
+      },
+      {
+        "src": "/assets/images/cancun5-paradise-pools-df9fab1c1e48d61f-1204.webp",
+        "width": 1204,
+        "height": 800,
+        "bytes": 239688
+      }
+    ]
+  },
+  "https://thinkparadisepools.com/wp-content/uploads/cancun6_paradise-pools.jpg": {
+    "src": "/assets/images/cancun6-paradise-pools-155a72779e8a5ac3-1148.webp",
+    "width": 1148,
+    "height": 800,
+    "originalBytes": 432406,
+    "sources": [
+      {
+        "src": "/assets/images/cancun6-paradise-pools-155a72779e8a5ac3-480.webp",
+        "width": 480,
+        "height": 334,
+        "bytes": 57256
+      },
+      {
+        "src": "/assets/images/cancun6-paradise-pools-155a72779e8a5ac3-960.webp",
+        "width": 960,
+        "height": 669,
+        "bytes": 219636
+      },
+      {
+        "src": "/assets/images/cancun6-paradise-pools-155a72779e8a5ac3-1148.webp",
+        "width": 1148,
+        "height": 800,
+        "bytes": 307650
+      }
+    ]
+  },
+  "https://thinkparadisepools.com/wp-content/uploads/cancun_paradise-pools.jpg": {
+    "src": "/assets/images/cancun-paradise-pools-f951a93ad3962c8c-1203.webp",
+    "width": 1203,
+    "height": 800,
+    "originalBytes": 291925,
+    "sources": [
+      {
+        "src": "/assets/images/cancun-paradise-pools-f951a93ad3962c8c-480.webp",
+        "width": 480,
+        "height": 319,
+        "bytes": 32422
+      },
+      {
+        "src": "/assets/images/cancun-paradise-pools-f951a93ad3962c8c-960.webp",
+        "width": 960,
+        "height": 638,
+        "bytes": 126108
+      },
+      {
+        "src": "/assets/images/cancun-paradise-pools-f951a93ad3962c8c-1203.webp",
+        "width": 1203,
+        "height": 800,
+        "bytes": 192752
+      }
+    ]
+  },
+  "https://thinkparadisepools.com/wp-content/uploads/chesapeake-pool-with-water-features_paradise-pools.jpg": {
+    "src": "/assets/images/chesapeake-pool-with-water-features-paradise-poo-a4ad81d6f9975f1d-1185.webp",
+    "width": 1185,
+    "height": 800,
+    "originalBytes": 407588,
+    "sources": [
+      {
+        "src": "/assets/images/chesapeake-pool-with-water-features-paradise-poo-a4ad81d6f9975f1d-480.webp",
+        "width": 480,
+        "height": 324,
+        "bytes": 50520
+      },
+      {
+        "src": "/assets/images/chesapeake-pool-with-water-features-paradise-poo-a4ad81d6f9975f1d-960.webp",
+        "width": 960,
+        "height": 648,
+        "bytes": 201722
+      },
+      {
+        "src": "/assets/images/chesapeake-pool-with-water-features-paradise-poo-a4ad81d6f9975f1d-1185.webp",
+        "width": 1185,
+        "height": 800,
+        "bytes": 298870
+      }
+    ]
+  },
+  "https://thinkparadisepools.com/wp-content/uploads/laguna2_paradise-pools.jpg": {
+    "src": "/assets/images/laguna2-paradise-pools-a6e033ea219d1148-1024.webp",
+    "width": 1024,
+    "height": 683,
+    "originalBytes": 156165,
+    "sources": [
+      {
+        "src": "/assets/images/laguna2-paradise-pools-a6e033ea219d1148-480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 29386
+      },
+      {
+        "src": "/assets/images/laguna2-paradise-pools-a6e033ea219d1148-960.webp",
+        "width": 960,
+        "height": 640,
+        "bytes": 82122
+      },
+      {
+        "src": "/assets/images/laguna2-paradise-pools-a6e033ea219d1148-1024.webp",
+        "width": 1024,
+        "height": 683,
+        "bytes": 95368
+      }
+    ]
+  },
+  "https://thinkparadisepools.com/wp-content/uploads/laguna_paradise-pools.jpg": {
+    "src": "/assets/images/laguna-paradise-pools-aa4d5d9e3267cf13-1053.webp",
+    "width": 1053,
+    "height": 700,
+    "originalBytes": 162527,
+    "sources": [
+      {
+        "src": "/assets/images/laguna-paradise-pools-aa4d5d9e3267cf13-480.webp",
+        "width": 480,
+        "height": 319,
+        "bytes": 21412
+      },
+      {
+        "src": "/assets/images/laguna-paradise-pools-aa4d5d9e3267cf13-960.webp",
+        "width": 960,
+        "height": 638,
+        "bytes": 66818
+      },
+      {
+        "src": "/assets/images/laguna-paradise-pools-aa4d5d9e3267cf13-1053.webp",
+        "width": 1053,
+        "height": 700,
+        "bytes": 82220
+      }
+    ]
+  },
+  "https://thinkparadisepools.com/wp-content/uploads/poool-steps_paradise-pools.jpg": {
+    "src": "/assets/images/poool-steps-paradise-pools-5de3cb415555fc94-600.webp",
+    "width": 600,
+    "height": 800,
+    "originalBytes": 185157,
+    "sources": [
+      {
+        "src": "/assets/images/poool-steps-paradise-pools-5de3cb415555fc94-480.webp",
+        "width": 480,
+        "height": 640,
+        "bytes": 85292
+      },
+      {
+        "src": "/assets/images/poool-steps-paradise-pools-5de3cb415555fc94-600.webp",
+        "width": 600,
+        "height": 800,
+        "bytes": 131254
+      }
+    ]
+  },
+  "https://thinkparadisepools.com/wp-content/uploads/poseidon_paradise-pools.jpg": {
+    "src": "/assets/images/poseidon-paradise-pools-a3e5ae3bbbd3f124-1169.webp",
+    "width": 1169,
+    "height": 700,
+    "originalBytes": 290845,
+    "sources": [
+      {
+        "src": "/assets/images/poseidon-paradise-pools-a3e5ae3bbbd3f124-480.webp",
+        "width": 480,
+        "height": 287,
+        "bytes": 39256
+      },
+      {
+        "src": "/assets/images/poseidon-paradise-pools-a3e5ae3bbbd3f124-960.webp",
+        "width": 960,
+        "height": 575,
+        "bytes": 145136
+      },
+      {
+        "src": "/assets/images/poseidon-paradise-pools-a3e5ae3bbbd3f124-1169.webp",
+        "width": 1169,
+        "height": 700,
+        "bytes": 202164
+      }
+    ]
+  },
+  "https://thinkparadisepools.com/wp-content/uploads/rio-pool_paradise-pools.jpg": {
+    "src": "/assets/images/rio-pool-paradise-pools-5bf3b9adfd3d6338-1003.webp",
+    "width": 1003,
+    "height": 700,
+    "originalBytes": 269143,
+    "sources": [
+      {
+        "src": "/assets/images/rio-pool-paradise-pools-5bf3b9adfd3d6338-480.webp",
+        "width": 480,
+        "height": 335,
+        "bytes": 43390
+      },
+      {
+        "src": "/assets/images/rio-pool-paradise-pools-5bf3b9adfd3d6338-960.webp",
+        "width": 960,
+        "height": 670,
+        "bytes": 160482
+      },
+      {
+        "src": "/assets/images/rio-pool-paradise-pools-5bf3b9adfd3d6338-1003.webp",
+        "width": 1003,
+        "height": 700,
+        "bytes": 179048
+      }
+    ]
+  },
+  "https://thinkparadisepools.com/wp-content/uploads/water-features2_paradise-pools.jpg": {
+    "src": "/assets/images/water-features2-paradise-pools-63c76c585a95b0a7-640.webp",
+    "width": 640,
+    "height": 427,
+    "originalBytes": 62960,
+    "sources": [
+      {
+        "src": "/assets/images/water-features2-paradise-pools-63c76c585a95b0a7-480.webp",
+        "width": 480,
+        "height": 320,
+        "bytes": 23462
+      },
+      {
+        "src": "/assets/images/water-features2-paradise-pools-63c76c585a95b0a7-640.webp",
+        "width": 640,
+        "height": 427,
+        "bytes": 35844
+      }
+    ]
+  },
+  "https://thinkparadisepools.com/wp-content/uploads/water-features_paradise-pools.jpg": {
+    "src": "/assets/images/water-features-paradise-pools-45245455176b033e-1103.webp",
+    "width": 1103,
+    "height": 700,
+    "originalBytes": 295080,
+    "sources": [
+      {
+        "src": "/assets/images/water-features-paradise-pools-45245455176b033e-480.webp",
+        "width": 480,
+        "height": 305,
+        "bytes": 45606
+      },
+      {
+        "src": "/assets/images/water-features-paradise-pools-45245455176b033e-960.webp",
+        "width": 960,
+        "height": 609,
+        "bytes": 150950
+      },
+      {
+        "src": "/assets/images/water-features-paradise-pools-45245455176b033e-1103.webp",
+        "width": 1103,
+        "height": 700,
+        "bytes": 190348
+      }
+    ]
+  },
   "https://www.coverstar.com/wp-content/uploads/2026/01/Gallery-Pics_0001_f-162-161-15633444_Snyder_Pools_Auto_Cover_Charcoal.jpg": {
     "src": "/assets/images/Gallery-Pics-0001-f-162-161-15633444-Snyder-Pool-40615bcb92edd86e-1500.jpg",
     "width": 1500,

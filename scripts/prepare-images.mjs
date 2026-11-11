@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile, unlink } from 'node:fs/promises';
 import sharp from 'sharp';
 import { pages, renderRawPage } from '../src/content/pages.js';
+import galleryPhotos from '../src/data/gallery.json' with { type: 'json' };
 
 // Run intentionally when imagery changes; ordinary builds use committed assets
 // and never depend on manufacturer image servers being available.
@@ -27,6 +28,15 @@ for (const url of sources) {
   }
   const metadata = await sharp(original).metadata();
   if (!metadata.width || !metadata.height || (metadata.pages || 1) > 1) throw new Error(`Unsupported image: ${url}`);
+  // Retain the gallery's public media addresses as well as responsive variants.
+  // These exact local copies let old image links survive the hosting change.
+  const galleryPhoto = galleryPhotos.find(photo => photo.source === url);
+  if (galleryPhoto) {
+    const originalUrl = new URL(url);
+    if (originalUrl.origin !== 'https://thinkparadisepools.com' || originalUrl.pathname !== galleryPhoto.originalPath || !/^\/wp-content\/uploads\/[a-z0-9_-]+\.jpg$/i.test(galleryPhoto.originalPath)) throw new Error(`Unexpected gallery path: ${url}`);
+    await mkdir('public/wp-content/uploads', { recursive: true });
+    await writeFile(`public${galleryPhoto.originalPath}`, original);
+  }
   const label = new URL(url).pathname.split('/').at(-1).replace(/\.[^.]+$/, '').replace(/[^a-z0-9-]/gi, '-').slice(0, 48);
   const variants = [];
   for (const width of [...new Set([480, 960, 1600].map(size => Math.min(size, metadata.width)))]) {

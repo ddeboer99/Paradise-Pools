@@ -633,3 +633,38 @@ main [id] { scroll-margin-top: 120px; }
   .service-grid-pairs { grid-template-columns: 1fr; }
   .service-grid-pairs .service-card, .service-grid-pairs .service-card:nth-child(even) { padding: 22px 0; border-left: 0; }
 }
+
+/* Retained gallery and seasonal pages reuse the approved page composition. */
+.seasonal-details-link { display: block; width: fit-content; margin-top: 20px; }
+.gallery-intro { max-width: 720px; margin-bottom: 38px; }
+.gallery-intro > p:last-child, .gallery-next > p:not(.eyebrow), .seasonal-intro > p:not(.eyebrow), .seasonal-planning p, .seasonal-planning li { color: var(--muted); font-size: 14px; line-height: 1.8; }
+.photo-gallery-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 24px; }
+.photo-gallery-item { min-width: 0; margin: 0; }
+.photo-gallery-link { display: block; min-width: 0; }
+.photo-gallery-item img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--paper-deep); }
+.photo-gallery-item figcaption { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding-top: 14px; font-size: 12px; line-height: 1.6; }
+.photo-gallery-item figcaption span { color: var(--coral-dark); }
+.gallery-next { background: var(--paper-deep); }
+.gallery-next > p { max-width: 660px; }
+.gallery-next .hero-actions { flex-wrap: wrap; }
+.seasonal-intro { padding-bottom: 64px; }
+.seasonal-intro > p:not(.eyebrow) { max-width: 760px; }
+.seasonal-planning { display: grid; grid-template-columns: 1.25fr .75fr; gap: 9%; padding-top: 64px; background: var(--paper-deep); }
+.seasonal-planning > * { min-width: 0; }
+.seasonal-planning ul { margin: 0 0 28px; padding-left: 21px; }
+.seasonal-planning li { margin-bottom: 8px; }
+.seasonal-planning .seasonal-request-note { margin: 18px 0 0; font-size: 12px; }
+.seasonal-help { padding-top: 24px; border-top: 1px solid var(--line); }
+.seasonal-help h3 { font-family: var(--serif); font-size: 28px; font-weight: 500; }
+.seasonal-help .text-link { display: block; width: fit-content; margin-top: 18px; }
+body[data-route="seasonal-service"] .service-callout .text-link { margin-top: 22px; color: white; }
+@media (max-width: 900px) {
+  .photo-gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .seasonal-planning { grid-template-columns: 1fr; gap: 40px; }
+  .seasonal-help { max-width: 640px; }
+}
+@media (max-width: 620px) {
+  .photo-gallery-grid { grid-template-columns: 1fr; gap: 30px; }
+  .seasonal-intro { padding-bottom: 42px; }
+  .seasonal-planning { padding-top: 42px; }
+}

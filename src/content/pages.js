@@ -2,6 +2,7 @@ import { quoteForm, poolReviewSection } from "./forms.js";
 import { localizeImages } from "./images.js";
 // Trusted HTML templates migrated from Dan’s original site; never interpolate form submissions here.
 import { poolModels, poolModelFacets, comparePoolModels } from "../data/pools.js";
+import galleryPhotos from "../data/gallery.json" with { type: "json" };
 
       function waterCareProductSection() {
         const products = [
@@ -90,12 +91,12 @@ import { poolModels, poolModelFacets, comparePoolModels } from "../data/pools.js
   const coverClosedPhoto = "https://www.coverstar.com/wp-content/uploads/2026/01/Gallery-Pics_0002_f-184-1-16880149_Auto_Cover.jpg";
 export const pages = {
     home: {
-      title: "Paradise Pools | Pool construction, service & supply since 1963",
+      title: "Pool Construction, Service & Supply | Paradise Pools",
       description: "Paradise Pools has built over 1,500 in-ground pools in Michiana since 1963. Explore fiberglass pools, pool service, automatic covers and supplies.",
       render: homePage
     },
     "new-pools": {
-      title: "Latham Fiberglass Pools in Michiana | Paradise Pools",
+      title: "Pool Construction & Latham Fiberglass Pools | Paradise Pools",
       description: "Explore Latham fiberglass pool models, colors and upgrades with Paradise Pools. Serving Michiana with pool construction since 1963.",
       eyebrow: "Latham fiberglass pools · Michiana since 1963",
       heading: "Your backyard,\nreimagined.",
@@ -105,8 +106,8 @@ export const pages = {
       render: fiberglassPoolPage
     },
     "pool-service": {
-      title: "2027 Pool Openings, Closings & Gold Program | Paradise Pools",
-      description: "Plan pool openings, closings and vinyl liner replacement in Michiana. Learn about Paradise Pools service, seasonal rates and Gold benefits.",
+      title: "Pool Service in Michiana | Paradise Pools",
+      description: "Pool openings, closings, liner replacement, equipment repair and inspections in Michiana. Explore Paradise Pools services and seasonal options.",
       eyebrow: "2027 openings, closings & Gold Program",
       heading: "Open with confidence.\nClose with peace of mind.",
       intro: "Professional pool service from your local Michiana team. Plan openings and closings, ask about vinyl liner replacement, or join the Gold Program for annual savings and priority service.",
@@ -120,6 +121,7 @@ export const pages = {
               <h2 id="seasonal-service-title">Openings & closings</h2>
               <p>Get your pool ready for the season and prepare it for winter. Choose the service that fits your cover arrangement, then check current rates and details.</p>
               <a class="button button-dark" href="#seasonal-pricing-title">View opening & closing rates <span aria-hidden="true">&#8594;</span></a>
+              <a class="text-link seasonal-details-link" href="/service/pool-opening-and-closing-contract/">Plan your pool opening or closing <span aria-hidden="true">&#8594;</span></a>
             </article>
             <article class="service-option liner-service-option">
               <p class="eyebrow light">A major part of our service work</p>
@@ -176,7 +178,7 @@ export const pages = {
     },
     "automatic-covers": {
       title: "Pool Covers | Automatic, Manual & Mesh | Paradise Pools",
-      description: "Explore automatic, manual and mesh pool covers from Paradise Pools in Michiana. Automatic covers are our specialty; we also install and service Coverstar systems.",
+      description: "Explore automatic, manual and mesh pool covers in Michiana. Paradise Pools installs and services Coverstar automatic cover systems.",
       eyebrow: "Pool covers · Automatic, manual & mesh",
       heading: "Cover your pool.\nKeep more summer.",
       intro: "Automatic pool covers are our specialty. We also offer manual and mesh covers, helping Michiana pool owners choose practical protection for their pool, routine and budget.",
@@ -206,7 +208,7 @@ export const pages = {
     },
     "about-us": {
       title: "About Paradise Pools | Serving Michiana Since 1963",
-      description: "Meet Paradise Pools: a Michiana pool construction, service and supply company with more than six decades of local experience, now focused on Latham Olympia and Apollo fiberglass pools.",
+      description: "Learn about Paradise Pools, serving Michiana since 1963 with pool construction, service and supplies, now featuring Latham fiberglass pools.",
       eyebrow: "A Michiana tradition · Established 1963",
       heading: "Built on good\nneighbors.",
       intro: "Since 1963, Paradise Pools has helped families around Michiana make more of their backyards. After more than 1,500 in-ground pools, our current fiberglass focus features Latham Olympia and Apollo models.",
@@ -243,6 +245,30 @@ export const pages = {
       image: cleanPhoto,
       imageAlt: "Clear swimming pool water",
       render: () => retailLocationPage(granger)
+    },
+    "photo-gallery": {
+      title: "Pool Photo Gallery | Paradise Pools",
+      description: "Browse the Paradise Pools photo gallery for pool shapes, water features, steps and backyard ideas. Explore current pool options with our Michiana team.",
+      eyebrow: "Pool shapes, details & ideas",
+      heading: "Pool photo\ngallery.",
+      intro: "Explore pool shapes, water features and backyard details from the Paradise Pools gallery. Find ideas you like, then talk with our team about the options available for your project.",
+      image: galleryPhotos[0].source,
+      imageAlt: galleryPhotos[0].alt,
+      primaryHref: "#gallery-photos",
+      primaryLabel: "Browse the photos",
+      render: photoGalleryPage
+    },
+    "seasonal-service": {
+      title: "Pool Opening & Closing | Paradise Pools",
+      description: "Plan your pool opening or closing with Paradise Pools in Michiana. Explore seasonal service details and contact our team about dates and your pool's needs.",
+      eyebrow: "Seasonal pool service · Michiana",
+      heading: "Pool openings\n& closings.",
+      intro: "Prepare your pool for swimming season or winter with help from Paradise Pools. Get in touch early to discuss your pool, cover arrangement and preferred service dates.",
+      image: cleanPhoto,
+      imageAlt: "Clear blue water in a swimming pool",
+      primaryHref: "/contact/?topic=Pool%20service%20or%20repair#contact-inquiry",
+      primaryLabel: "Ask about seasonal service",
+      render: seasonalInquiryPage
     },
     contact: {
       title: "Contact Paradise Pools | Pool Quotes & Service Inquiries",
@@ -287,7 +313,7 @@ export const pages = {
     if (isHome) {
       return `<section class="home-hero" style="--hero-image:url('${poolPhoto}')"><div class="hero-shade"></div><div class="home-hero-inner"><p class="eyebrow light">Pool construction, service & supply · Michiana</p><h1>Make room<br>for <em>summer.</em></h1><p class="hero-copy">Thoughtful pool construction and dependable local care. Paradise Pools has been part of Michiana summers since 1963.</p><div class="hero-actions"><a class="button button-coral" href="/pool-construction/">Explore new pools <span aria-hidden="true">&#8594;</span></a><a class="button button-ghost" href="/service/">Pool service</a></div><div class="hero-proof"><span class="proof-number">1,500+</span><span>in-ground pools built<br>right here in Michiana</span></div></div><div class="hero-side-note"><span>EST. 1963</span><span>Family time starts here</span></div></section>`;
     }
-    return `<section class="page-hero${page === pages["pool-service"] ? " pool-service-hero" : ""}"><div class="page-hero-copy"><p class="eyebrow">${page.eyebrow}</p><h1>${page.heading.replace("\n", "<br>")}</h1><p class="hero-copy">${page.intro}</p><div class="hero-actions"><a class="button button-dark" href="${page === pages[location.route] ? '#store-details' : '/contact/'}">${page === pages[location.route] ? 'Hours & directions' : "Let's talk"} <span aria-hidden="true">&#8594;</span></a><a class="phone-inline" href="tel:${location.tel}">Call ${location.name} ${location.phone}</a></div></div><div class="page-hero-image" style="--hero-image:url('${page.image}')"><span class="image-caption">${page.imageAlt}</span><span class="image-index">PARADISE POOLS · Michiana</span></div></section>`;
+    return `<section class="page-hero${page === pages["pool-service"] ? " pool-service-hero" : ""}"><div class="page-hero-copy"><p class="eyebrow">${page.eyebrow}</p><h1>${page.heading.replace("\n", "<br>")}</h1><p class="hero-copy">${page.intro}</p><div class="hero-actions"><a class="button button-dark" href="${page.primaryHref || (page === pages[location.route] ? '#store-details' : '/contact/')}">${page.primaryLabel || (page === pages[location.route] ? 'Hours & directions' : "Let's talk")} <span aria-hidden="true">&#8594;</span></a><a class="phone-inline" href="tel:${location.tel}">Call ${location.name} ${location.phone}</a></div></div><div class="page-hero-image" style="--hero-image:url('${page.image}')"><span class="image-caption">${page.imageAlt}</span><span class="image-index">PARADISE POOLS · Michiana</span></div></section>`;
   }
 
   function serviceCards(items) {
@@ -332,7 +358,7 @@ export const pages = {
   }
 
   function fiberglassPoolPage() {
-    return `${hero(pages["new-pools"])}${trustBand()}<section class="section fiberglass-intro"><div><p class="eyebrow">Our focus: Latham fiberglass</p><h2>One-piece strength.<br>Made for your backyard.</h2><p>Paradise Pools specializes in installing Latham fiberglass pools, with a range of shapes from clean-lined rectangles to relaxed freeforms. Choose a model, then personalize the look and features with our team.</p></div><div class="fiberglass-aside"><strong>Since 1963</strong><p>Local pool construction experience, with more than 1,500 in-ground pools built across Michiana.</p></div></section>${poolShapeGuide()}<section class="section model-section" id="pool-models"><p class="eyebrow">Explore Latham fiberglass models</p><h2>Different shapes.<br>Same Latham craftsmanship.</h2>${modelGallery()}<p class="model-disclaimer">Model availability, dimensions and features can vary. Ask Paradise Pools about current Latham options for your site.</p></section><section class="upgrade-section" id="tile-options"><div class="upgrade-heading"><p class="eyebrow light">Personalize your pool</p><h2>Latham upgrades<br>& available options</h2><p>Build your pool around how you want to use it. Final selections depend on model, site conditions and project scope.</p></div><div class="upgrade-grid"><div><strong>Lighting</strong><span>Extend the swim and set the evening mood.</span></div><div><strong>Heaters & heat pumps</strong><span>Choose heating equipment for your comfort and season.</span></div><div><strong>Slides</strong><span>Add a playful feature where the layout allows.</span></div><div><strong>Automatic pool cleaners</strong><span>Explore cleaner options to simplify regular upkeep.</span></div><div><strong>Water features</strong><span>Consider a waterfall, fountain or other feature.</span></div><div><strong>Salt system options</strong><span>Discuss saltwater-compatible equipment and setup.</span></div><div id="color-finish"><strong>Finishes & colors</strong><span>Compare Latham fiberglass finishes and color choices with our team. Final selections depend on your pool model and current availability.</span></div><div><strong>Tile & mosaics</strong><span>Ask about tile and mosaic options when planning your pool. We will confirm compatible choices for your selected model and finish.</span></div><div><strong>Concrete deck</strong><span>Plan the deck area around access, seating and circulation.</span></div><div><strong>Additional concrete</strong><span>Extra concrete can be discussed and is an additional cost.</span></div></div><p class="upgrade-note">Options and compatibility vary by pool model, site and equipment package. We'll review what's available for your project.</p></section><section class="section vinyl-note"><div><p class="eyebrow">Already have a vinyl liner pool?</p><h2>Liner replacement is a service.</h2><p>We replace more than 50 vinyl liners each year. Learn about liner replacement and our other pool services.</p><a class="button button-dark" href="/service/">Explore pool service <span aria-hidden="true">&#8594;</span></a></div></section><section class="bottom-cta"><div><p class="eyebrow">Ready when you are</p><h2>Let's plan your Latham pool.</h2></div><a class="button button-dark" href="/contact/">Request a fiberglass pool quote <span aria-hidden="true">&#8594;</span></a></section>`;
+    return `${hero(pages["new-pools"])}${trustBand()}<section class="section fiberglass-intro"><div><p class="eyebrow">Our focus: Latham fiberglass</p><h2>One-piece strength.<br>Made for your backyard.</h2><p>Paradise Pools specializes in installing Latham fiberglass pools, with a range of shapes from clean-lined rectangles to relaxed freeforms. Choose a model, then personalize the look and features with our team.</p><a class="text-link" href="/photo-gallery/">Browse the pool photo gallery <span aria-hidden="true">&#8594;</span></a></div><div class="fiberglass-aside"><strong>Since 1963</strong><p>Local pool construction experience, with more than 1,500 in-ground pools built across Michiana.</p></div></section>${poolShapeGuide()}<section class="section model-section" id="pool-models"><p class="eyebrow">Explore Latham fiberglass models</p><h2>Different shapes.<br>Same Latham craftsmanship.</h2>${modelGallery()}<p class="model-disclaimer">Model availability, dimensions and features can vary. Ask Paradise Pools about current Latham options for your site.</p></section><section class="upgrade-section" id="tile-options"><div class="upgrade-heading"><p class="eyebrow light">Personalize your pool</p><h2>Latham upgrades<br>& available options</h2><p>Build your pool around how you want to use it. Final selections depend on model, site conditions and project scope.</p></div><div class="upgrade-grid"><div><strong>Lighting</strong><span>Extend the swim and set the evening mood.</span></div><div><strong>Heaters & heat pumps</strong><span>Choose heating equipment for your comfort and season.</span></div><div><strong>Slides</strong><span>Add a playful feature where the layout allows.</span></div><div><strong>Automatic pool cleaners</strong><span>Explore cleaner options to simplify regular upkeep.</span></div><div><strong>Water features</strong><span>Consider a waterfall, fountain or other feature.</span></div><div><strong>Salt system options</strong><span>Discuss saltwater-compatible equipment and setup.</span></div><div id="color-finish"><strong>Finishes & colors</strong><span>Compare Latham fiberglass finishes and color choices with our team. Final selections depend on your pool model and current availability.</span></div><div><strong>Tile & mosaics</strong><span>Ask about tile and mosaic options when planning your pool. We will confirm compatible choices for your selected model and finish.</span></div><div><strong>Concrete deck</strong><span>Plan the deck area around access, seating and circulation.</span></div><div><strong>Additional concrete</strong><span>Extra concrete can be discussed and is an additional cost.</span></div></div><p class="upgrade-note">Options and compatibility vary by pool model, site and equipment package. We'll review what's available for your project.</p></section><section class="section vinyl-note"><div><p class="eyebrow">Already have a vinyl liner pool?</p><h2>Liner replacement is a service.</h2><p>We replace more than 50 vinyl liners each year. Learn about liner replacement and our other pool services.</p><a class="button button-dark" href="/service/">Explore pool service <span aria-hidden="true">&#8594;</span></a></div></section><section class="bottom-cta"><div><p class="eyebrow">Ready when you are</p><h2>Let's plan your Latham pool.</h2></div><a class="button button-dark" href="/contact/">Request a fiberglass pool quote <span aria-hidden="true">&#8594;</span></a></section>`;
   }
 
   function equipmentPage() {
@@ -481,6 +507,22 @@ export const pages = {
           { title: 'Equipment advice', copy: 'Get guidance on pool pumps, filters, heaters and other equipment that needs attention.', href: '/equipment/', link: 'Explore equipment help' }
         ])}
       </section>`;
+  }
+
+  function photoGalleryPage() {
+    return `${hero(pages["photo-gallery"])}
+      <section class="section photo-gallery-section" id="gallery-photos" aria-labelledby="gallery-title">
+        <div class="gallery-intro"><p class="eyebrow">A closer look</p><h2 id="gallery-title">Shapes, water features<br>& poolside details.</h2><p>Select a photo to open the full image in a new tab. The gallery includes a range of pool styles; our team can help you explore current models and available options.</p></div>
+        <div class="photo-gallery-grid">${galleryPhotos.map(photo => `<a class="photo-gallery-link" href="${photo.originalPath}" target="_blank" rel="noopener" aria-label="Open full-size photo: ${photo.alt} (new tab)"><figure class="photo-gallery-item"><img class="gallery-photo" src="${photo.source}" alt="${photo.alt}" loading="lazy"><figcaption>${photo.caption}<span aria-hidden="true">&#8599;</span></figcaption></figure></a>`).join("")}</div>
+      </section>
+      <section class="section gallery-next"><p class="eyebrow">Plan your pool</p><h2>Bring your ideas<br>to the conversation.</h2><p>Explore our current Latham fiberglass pool models, learn about automatic covers, or talk with Paradise Pools about your backyard.</p><div class="hero-actions"><a class="button button-dark" href="/pool-construction/">Explore Latham pool models <span aria-hidden="true">&#8594;</span></a><a class="text-link" href="/automatic-covers/">Explore automatic pool covers</a><a class="text-link" href="/contact/">Discuss your pool ideas</a></div></section>`;
+  }
+
+  function seasonalInquiryPage() {
+    return `${hero(pages["seasonal-service"])}
+      <section class="section seasonal-intro"><p class="eyebrow">From spring to winter</p><h2>Care for the change<br>of season.</h2><p>Pool openings prepare your pool for swimming season. Pool closings prepare it for winter, when freezing temperatures make proper care of the plumbing and equipment important. Paradise Pools offers seasonal service suited to your pool and cover arrangement.</p><p>Contact us early to discuss availability. We will review service details and scheduling with you.</p><a class="text-link" href="/service/#seasonal-pricing-title">View seasonal service details and rates <span aria-hidden="true">&#8594;</span></a></section>
+      <section class="section seasonal-planning" aria-labelledby="seasonal-planning-title"><div><p class="eyebrow">Help us plan your visit</p><h2 id="seasonal-planning-title">Tell us about<br>your pool.</h2><p>When you send your inquiry, include these details in your message so our team can follow up.</p><ul><li>Whether you need an opening, closing or both</li><li>Your pool's street address, city, state and ZIP code</li><li>Your cover type and any equipment concerns</li><li>Your preferred timeframe and the best way to reach you</li></ul><a class="button button-dark" href="${pages['seasonal-service'].primaryHref}">Send a seasonal service inquiry <span aria-hidden="true">&#8594;</span></a><p class="seasonal-request-note">Sending an inquiry does not reserve a date. Our team will confirm availability and the details with you.</p></div><aside class="seasonal-help"><p class="eyebrow">Before opening or closing</p><h3>Questions about water care?</h3><p>Our retail team can help with water testing and pool chemical questions. Ask which preparation steps apply to your pool before the service visit.</p><a class="text-link" href="/pool-chemicals/">Explore water care and testing</a><a class="text-link" href="/elkhart-store/">Elkhart store hours and directions</a><a class="text-link" href="/granger-store/">Granger store hours and directions</a></aside></section>
+      <section class="service-callout"><div><p class="eyebrow light">Rather talk it through?</p><h2>Call your<br>local team.</h2></div><div><p>Ask about seasonal availability, your cover arrangement or an equipment concern.</p><a class="callout-phone" href="tel:${elkhart.tel}">Elkhart ${elkhart.phone}</a><a class="callout-phone" href="tel:${granger.tel}">Granger ${granger.phone}</a><a class="text-link" href="/service/">Explore all pool services <span aria-hidden="true">&#8594;</span></a></div></section>`;
   }
 
   function contactPage() {

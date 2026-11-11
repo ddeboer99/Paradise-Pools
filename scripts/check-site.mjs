@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile, access } from 'node:fs/promises';
 import { routePaths } from '../src/data/routes.js';
 import { poolModels, comparePoolModels } from '../src/data/pools.js';
+import galleryPhotos from '../src/data/gallery.json' with { type: 'json' };
 
 // Check the built pages, not just their source templates. This is a local
 // migration regression check; the full legacy URL map remains a launch gate.
@@ -46,6 +47,10 @@ for (const [path, html] of documents) {
     if (!href.startsWith('/') && !href.startsWith('#')) continue;
     const target = new URL(href, `${origin}${path}`);
     if (target.pathname.startsWith('/_astro/')) continue;
+    if (galleryPhotos.some(photo => photo.originalPath === target.pathname)) {
+      await access(`dist${target.pathname}`);
+      continue;
+    }
     assert.ok(paths.has(target.pathname), `${path}: internal link ${href} has a built page`);
     if (target.hash) assert.ok(documents.get(target.pathname).includes(`id="${decodeURIComponent(target.hash.slice(1))}"`), `${path}: anchor ${href} exists`);
   }
@@ -72,6 +77,14 @@ for (const [path, phone, address] of [
   assert.ok(documents.get('/locations/').includes(`href="${path}"`), `${path}: linked from location overview`);
 }
 const sitemap = await readFile('dist/sitemap.xml', 'utf8');
+const gallery = documents.get('/photo-gallery/');
+assert.ok(gallery, 'Retain the existing gallery page address');
+assert.equal((gallery.match(/class="gallery-photo"/g) || []).length, galleryPhotos.length, 'All retained gallery photos are rendered without JavaScript');
+for (const photo of galleryPhotos) assert.ok(gallery.includes(`href="${photo.originalPath}"`), `Gallery retains original media URL: ${photo.originalPath}`);
+const seasonal = documents.get('/service/pool-opening-and-closing-contract/');
+assert.ok(seasonal, 'Retain the existing seasonal page address');
+assert.ok(seasonal.includes('href="/contact/?topic=Pool%20service%20or%20repair#contact-inquiry"'), 'Seasonal inquiries use the existing contact flow');
+assert.ok(!seasonal.includes('<form'), 'Seasonal page does not introduce a separate contract or ordering form');
 for (const path of paths) assert.ok(sitemap.includes(`<loc>${origin}${path}</loc>`), `${path}: in sitemap`);
 const notFound = await readFile('dist/404.html', 'utf8');
 assert.match(notFound, /noindex/);

@@ -17,6 +17,13 @@ export function initializeForms(root) {
   const siteKey = document.body.dataset.turnstileSiteKey;
   root.querySelectorAll('[data-submission-form]').forEach(async form => {
     const type = form.dataset.submissionForm;
+    // Related service pages can select an existing topic, never arbitrary text.
+    // Keep any value the visitor has already entered or the browser restored.
+    const topic = new URLSearchParams(window.location.search).get('topic');
+    const interest = form.querySelector('select[name="interest"]');
+    if (type === 'contact' && interest && !interest.value && [...interest.options].some(option => option.value === topic)) {
+      interest.value = topic;
+    }
     const button = form.querySelector('[type="submit"]');
     const status = form.querySelector('[data-form-status]');
     const availability = form.querySelector('[data-form-availability]');
