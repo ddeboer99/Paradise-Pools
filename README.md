@@ -76,7 +76,7 @@ npm run check:redirects -- --base=http://127.0.0.1:4175 --report=output/redirect
 
 Astro preview on port 4173 does not implement the Pages redirect/function rules. The check command only accepts loopback hosts, follows each redirect one hop, verifies the actual final page/canonical, and never submits forms. The test expects a noindex preview build.
 
-WordPress IDs `6141`, `6745` and `6173` still need content decisions for program terms, chemical orders and image-use information. They are intentionally unmapped and currently fall through to the homepage; this is an explicit unfinished migration item, not a correct replacement or retirement. Unknown/ambiguous IDs also have no guessed redirect. Unresolved page paths and genuinely missing URLs remain 404. Domain-level HTTPS/www rules, old media and any additional URLs from the existing host still need production/access review. Do not add a catch-all homepage redirect.
+WordPress IDs `6141`, `6745` and `6173` still need content decisions for program terms, chemical orders and image-use information. They are intentionally unmapped and currently fall through to the homepage; this is an explicit unfinished migration item, not a correct replacement or retirement. Unknown/ambiguous IDs also have no guessed redirect. Unresolved page paths and genuinely missing URLs remain 404. Domain-level HTTPS/www rules and additional URLs/media discovered in the existing host's export still need production/access review. Do not add a catch-all homepage redirect.
 
 ## Where to edit
 
@@ -104,6 +104,20 @@ After changing an image URL in the content, run `npm run prepare:images`, then b
 
 The build checks verify local image files, responsive sources, gallery alternatives and reserved dimensions. The private review record contains browser screenshots and measurements. These checks do not replace a real-device review or measure production Core Web Vitals.
 
+## Preserving older images and downloads
+
+`public/wp-content/uploads/` retains **385 original image files** at their exact existing paths, including the 16 gallery originals retained earlier. These cover 386 captured image URL references (including query variants), totaling 26,522,922 bytes. `src/data/legacy-media.json` records the public source URLs, dimensions, byte counts and SHA-256 hashes. The original files are not recompressed or renamed; old image links need no redirect. They do not replace the optimized images used by the new design or cause all originals to load with each page.
+
+The bounded November 11 review covered 13 previously inventoried page destinations. No linked PDFs, brochures or other downloads were found there. One generated WordPress menu stylesheet was excluded because the Astro site does not use it. This capture is **not a complete WordPress export**: reconcile RGB's full media/download backup, unlinked files and attachment URLs, and confirm image rights before publication.
+
+`npm run check:site` verifies that all recorded originals are copied unchanged into `dist`. To fully decode the images and check their actual responses in a running local Pages preview:
+
+```sh
+npm run check:media -- --base=http://127.0.0.1:4174
+```
+
+Omit `--base` for file integrity/decoding only. The command accepts loopback hosts only and never contacts production. It checks every recorded query variant, correct image types and bytes, and a genuine 404 for a missing image. Use `--report=output/media-preservation-review/local-verification.json` to save private results. Recheck any new files received from RGB before adding their manifest entries; do not redirect missing media wholesale to the homepage.
+
 ## Working together in GitHub and VS Code
 
 1. Clone `https://github.com/ddeboer99/Paradise-Pools.git` into VS Code and edit that cloned folder. Keep any original local copy as a reference.
@@ -123,7 +137,7 @@ The November 11 local head start is authorized. Hold the new branch off GitHub u
 - Catalog parsing, combined size/depth filters, feature matching, and depth sorting are corrected and regression-tested against the supplied data. This is not a manufacturer specification audit: feature tags remain collection-level, and collections without known depths are excluded when filtering by depth.
 - Both forms now use Pages Functions with server-side validation, Turnstile verification, and Resend handling. Real accounts/keys, sending-domain verification, and actual inbox delivery tests remain outstanding. Never put a Resend key in browser code.
 - The original nine pages have local layout checks at 320, 390, 620, 768, 901, 1024, 1100 and 1440 pixels. Narrow-screen catalog controls, headings, navigation and About-page labels are corrected; forms use larger controls, and scrollable tables have keyboard access. Real iPhone/Android checks, a full accessibility audit, and content/metadata review remain open.
-- The existing store, gallery, seasonal-service and privacy paths are retained locally, together with the core live routes and original construction/service section IDs. Nine of the twelve captured working live paths now exist; the privacy page remains a review draft. Eight WordPress shortcuts and the two old sitemap addresses have local redirect handling. Three legacy page/shortcut decisions, media reconciliation and human content approval remain open; the 14-page sitemap is not the final migration inventory.
+- The existing store, gallery, seasonal-service and privacy paths are retained locally, together with the core live routes and original construction/service section IDs. Nine of the twelve captured working live paths now exist; the privacy page remains a review draft. Eight WordPress shortcuts and the two old sitemap addresses have local redirect handling. The 385 captured legacy image files are preserved and verified locally. Three legacy page/shortcut decisions, RGB export/download completeness, media rights and human content approval remain open; the 14-page sitemap is not the final migration inventory.
 - All builds default to `noindex, nofollow`. Only set `PUBLIC_SITE_INDEXABLE=true` for the approved production build after the launch checks pass. Leave it unset/false for previews; inspect the generated HTML and hosting headers before connecting the domain.
 - Hosting/domain ownership, email handover, real form delivery, legacy redirects, backup/rollback, and post-launch Search Console checks remain open.
 - The supplied images now load locally with responsive sizes, dimensions and lazy loading where appropriate. Their largest variants total about 26% fewer bytes than the downloaded originals; this is an asset-size comparison, not a measured page-speed score. Fonts still load from Google Fonts. Image rights, fonts, production caching and field performance remain part of launch review.

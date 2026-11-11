@@ -1,9 +1,11 @@
 import assert from 'node:assert/strict';
 import { readFile, access } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { routePaths } from '../src/data/routes.js';
 import { poolModels, comparePoolModels } from '../src/data/pools.js';
 import galleryPhotos from '../src/data/gallery.json' with { type: 'json' };
 import { legacyShortlinks } from '../src/data/legacy-shortlinks.js';
+import legacyMedia from '../src/data/legacy-media.json' with { type: 'json' };
 
 // Check the built pages, not just their source templates. This is a local
 // migration regression check; the full legacy URL map remains a launch gate.
@@ -43,6 +45,19 @@ for (const path of paths) {
   }
 }
 for (const src of assets) await access(`dist${src}`);
+// Keep the original media URLs byte-for-byte even when the new design uses
+// optimized /assets/ variants. No remote requests are needed during a build.
+const preservedPaths = new Set();
+for (const asset of legacyMedia.assets) {
+  assert.match(asset.path, /^\/wp-content\/uploads\/[a-zA-Z0-9_/-]+\.(jpg|jpeg|png)$/);
+  assert.ok(!preservedPaths.has(asset.path), `Unique legacy media path: ${asset.path}`);
+  preservedPaths.add(asset.path);
+  for (const directory of ['public', 'dist']) {
+    const bytes = await readFile(`${directory}${asset.path}`);
+    assert.equal(bytes.length, asset.bytes, `${directory}${asset.path}: retained size`);
+    assert.equal(createHash('sha256').update(bytes).digest('hex'), asset.sha256, `${directory}${asset.path}: retained original bytes`);
+  }
+}
 for (const [path, html] of documents) {
   for (const [, href] of html.matchAll(/href="([^"]+)"/g)) {
     if (!href.startsWith('/') && !href.startsWith('#')) continue;
@@ -106,4 +121,4 @@ if (preview) {
 } else {
   for (const [path, html] of documents) assert.doesNotMatch(html, /name="robots" content="[^"]*noindex/, `${path}: approved production pages are indexable`);
 }
-console.log(`Passed: ${paths.size} static pages, ${assets.size} local image assets, image dimensions, metadata, internal links/anchors, sitemap, 404 and ${preview ? 'preview noindex' : 'production'} checks.`);
+console.log(`Passed: ${paths.size} static pages, ${assets.size} responsive image assets, ${preservedPaths.size} preserved legacy media files, image dimensions, metadata, internal links/anchors, sitemap, 404 and ${preview ? 'preview noindex' : 'production'} checks.`);
