@@ -62,16 +62,25 @@ The handlers validate fields and request size, verify Turnstile on the server, c
 - `src/components/Header.astro` and `Footer.astro`: shared navigation, logo, and footer.
 - `src/content/pages.js`: existing page copy and HTML templates rendered at build time. This preserves the supplied design during the first migration pass; further component extraction can be incremental.
 - `src/content/forms.js`: contact and owner feedback form markup.
+- `src/content/images.js` and `src/data/images.json`: build-time mapping from the supplied image URLs to local responsive assets.
 - `src/data/pools.js`: supplied pool catalog and its filter attributes.
 - `src/data/routes.js`: public page addresses. Existing core paths are retained where they clearly match. Review the full legacy URL map before launch.
 - `src/scripts/`: menu, tabs, pool comparison/filter behavior, and form submission states.
 - `functions/api/` and `src/server/submissions.js`: Pages Functions entrypoints and shared validation/email handling.
 - `tests/`: pool-filter regression cases and form-handler tests with mocked providers.
 - `src/styles/site.css`: existing design styles and scoped responsive/accessibility fixes.
-- `public/assets/`: local assets, including the supplied logo.
+- `public/assets/`: supplied logo and optimized website images. Original source URLs remain in the content and image manifest for provenance.
 - `legacy/`: original four files retained unchanged for reference. The original version is also at commit `aacd93c` on `main`. These files are not deployed by Astro.
 
 Astro generates the nine views as complete HTML pages. Small browser scripts add interactions; they no longer assemble the entire website after loading.
+
+## Updating images
+
+The existing 86 remote images have been checked and copied locally, with responsive versions up to 480, 960 and 1600 pixels (never upscaled). Most versions are WebP; an already smaller original is kept at its native size rather than increasing its download. The photographs, product art, colors and crop rules are unchanged. Image rights and manufacturer permissions still require the planned client review before publishing.
+
+After changing an image URL in the content, run `npm run prepare:images`, then build and run `npm run check:site`. The preparation command downloads originals into ignored `tmp/image-originals/`, generates files under `public/assets/images/`, and updates `src/data/images.json`. Commit the generated assets and manifest together when sharing is authorized. Regular builds use those files and do not download remote images. To refresh an existing source URL, remove its matching file from the temporary cache before preparing images again; review any obsolete generated assets before removing them.
+
+The build checks verify local image files, responsive sources, gallery alternatives and reserved dimensions. The private review record contains browser screenshots and measurements. These checks do not replace a real-device review or measure production Core Web Vitals.
 
 ## Working together in GitHub and VS Code
 
@@ -91,10 +100,10 @@ The November 11 local head start is authorized. Hold the new branch off GitHub u
 - The nine-page Astro foundation, supplied logo, ordinary page/section navigation, and scroll-stable mobile menu are implemented locally.
 - Catalog parsing, combined size/depth filters, feature matching, and depth sorting are corrected and regression-tested against the supplied data. This is not a manufacturer specification audit: feature tags remain collection-level, and collections without known depths are excluded when filtering by depth.
 - Both forms now use Pages Functions with server-side validation, Turnstile verification, and Resend handling. Real accounts/keys, sending-domain verification, and actual inbox delivery tests remain outstanding. Never put a Resend key in browser code.
-- The affected form/catalog layouts have local browser checks. Full responsive/accessibility review, image performance, and content/metadata review still need completion.
+- All nine pages have local layout checks at 320, 390, 620, 768, 901, 1024, 1100 and 1440 pixels. Narrow-screen catalog controls, headings, navigation and About-page labels are corrected; forms use larger controls, and scrollable tables have keyboard access. Real iPhone/Android checks, a full accessibility audit, and content/metadata review remain open.
 - Existing separate store pages and other legacy URLs must be reconciled before launch. The current sitemap only lists the nine converted views; it is not the final migration inventory.
 - All builds default to `noindex, nofollow`. Only set `PUBLIC_SITE_INDEXABLE=true` for the approved production build after the launch checks pass. Leave it unset/false for previews; inspect the generated HTML and hosting headers before connecting the domain.
 - Hosting/domain ownership, email handover, real form delivery, legacy redirects, backup/rollback, and post-launch Search Console checks remain open.
-- Many images and fonts still load from external services. Their reliability, sizes, and licensing need the planned review.
+- The supplied images now load locally with responsive sizes, dimensions and lazy loading where appropriate. Their largest variants total about 26% fewer bytes than the downloaded originals; this is an asset-size comparison, not a measured page-speed score. Fonts still load from Google Fonts. Image rights, fonts, production caching and field performance remain part of launch review.
 
 Private checklist, SEO evidence, proposals, and call notes live in the ignored `output/` folder. Keep credentials and client records outside this public repository. Use `.env.example` only for non-secret setup instructions.

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, access } from 'node:fs/promises';
 import { routePaths } from '../src/data/routes.js';
 
 // Check the built pages, not just their source templates. This is a local
@@ -8,6 +8,7 @@ const origin = 'https://thinkparadisepools.com';
 const paths = new Set(Object.values(routePaths));
 const documents = new Map();
 const titles = new Set();
+const assets = new Set();
 for (const path of paths) {
   const html = await readFile(`dist${path}index.html`, 'utf8');
   documents.set(path, html);
@@ -22,7 +23,23 @@ for (const path of paths) {
   assert.match(html, /<main[^>]*>[\s\S]*<h1/, `${path}: content rendered without JavaScript`);
   const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map(match => match[1]);
   assert.equal(ids.length, new Set(ids).size, `${path}: unique element IDs`);
+  for (const [tag] of html.matchAll(/<img\b[^>]*>/g)) {
+    const src = tag.match(/\bsrc="([^"]+)"/)?.[1];
+    assert.ok(src?.startsWith('/assets/'), `${path}: image served locally`);
+    assert.match(tag, /\bwidth="[1-9]\d*"/, `${path}: image width reserved`);
+    assert.match(tag, /\bheight="[1-9]\d*"/, `${path}: image height reserved`);
+    assets.add(src);
+  }
+  for (const [, src] of html.matchAll(/(?:data-src|src)="(\/assets\/[^"]+)"/g)) assets.add(src);
+  for (const [, set] of html.matchAll(/(?:data-srcset|srcset)="([^"]+)"/g)) {
+    for (const item of set.split(',')) assets.add(item.trim().split(' ')[0]);
+  }
+  for (const [, src] of html.matchAll(/url\('([^']+)'\)/g)) {
+    assert.ok(src.startsWith('/assets/'), `${path}: background image served locally`);
+    assets.add(src);
+  }
 }
+for (const src of assets) await access(`dist${src}`);
 for (const [path, html] of documents) {
   for (const [, href] of html.matchAll(/href="([^"]+)"/g)) {
     if (!href.startsWith('/') && !href.startsWith('#')) continue;
@@ -43,4 +60,4 @@ if (preview) {
 } else {
   for (const [path, html] of documents) assert.doesNotMatch(html, /name="robots" content="[^"]*noindex/, `${path}: approved production pages are indexable`);
 }
-console.log(`Passed: ${paths.size} static pages, metadata, internal links/anchors, sitemap, 404 and ${preview ? 'preview noindex' : 'production'} checks.`);
+console.log(`Passed: ${paths.size} static pages, ${assets.size} local image assets, image dimensions, metadata, internal links/anchors, sitemap, 404 and ${preview ? 'preview noindex' : 'production'} checks.`);

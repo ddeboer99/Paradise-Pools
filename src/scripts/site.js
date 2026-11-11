@@ -24,7 +24,7 @@ document.addEventListener('keydown', event => {
 document.addEventListener('click', event => {
   if (!event.target.closest('.site-header')) setMenu(false);
 });
-const wideScreen = matchMedia('(min-width: 901px)');
+const wideScreen = matchMedia('(min-width: 1101px)');
 wideScreen.addEventListener('change', () => setMenu(false));
 
 document.addEventListener('click', event => {
@@ -49,6 +49,9 @@ document.addEventListener('click', event => {
     const panel = thumb.closest('.option-panel');
     const image = panel.querySelector('.option-main');
     image.src = thumb.dataset.src;
+    image.srcset = thumb.dataset.srcset || '';
+    if (thumb.dataset.width) image.width = Number(thumb.dataset.width);
+    if (thumb.dataset.height) image.height = Number(thumb.dataset.height);
     image.alt = thumb.dataset.alt;
     panel.querySelectorAll('[data-option-thumb]').forEach(button => {
       button.classList.toggle('is-active', button === thumb);

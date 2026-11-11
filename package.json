@@ -11,6 +11,7 @@
     "build": "astro build",
     "preview": "astro preview --host 127.0.0.1 --port 4173",
     "check:site": "node scripts/check-site.mjs",
+    "prepare:images": "node scripts/prepare-images.mjs",
     "test": "node --test tests/*.test.mjs",
     "preview:functions": "wrangler pages dev dist --ip 127.0.0.1 --port 4174"
   },
@@ -18,6 +19,7 @@
     "astro": "7.4.11"
   },
   "devDependencies": {
+    "sharp": "0.35.5",
     "wrangler": "4.160.1"
   }
 }
