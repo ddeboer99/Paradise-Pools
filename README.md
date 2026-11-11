@@ -131,7 +131,7 @@ Collaborator access alone does not enforce approval. Configure the review proces
 
 ## Current stage and launch gates
 
-The November 11 local head start is authorized. Hold the new branch off GitHub until Bryan confirms the deposit. Do not connect production hosting or change DNS as part of local preview work.
+The `bryan/astro-local` development branch is authorized for sharing and review. It is not an approved production release. Review and merge separately; do not connect production hosting or change DNS as part of preview work.
 
 - The nine-page Astro foundation, supplied logo, ordinary page/section navigation, and scroll-stable mobile menu are implemented locally.
 - Catalog parsing, combined size/depth filters, feature matching, and depth sorting are corrected and regression-tested against the supplied data. This is not a manufacturer specification audit: feature tags remain collection-level, and collections without known depths are excluded when filtering by depth.
