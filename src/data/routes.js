@@ -13,5 +13,6 @@ export const routePaths = {
   "granger-store": "/granger-store/",
   "photo-gallery": "/photo-gallery/",
   "seasonal-service": "/service/pool-opening-and-closing-contract/",
+  "privacy-policy": "/privacy-policy/",
   "contact": "/contact/"
 };

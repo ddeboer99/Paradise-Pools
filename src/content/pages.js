@@ -3,6 +3,7 @@ import { localizeImages } from "./images.js";
 // Trusted HTML templates migrated from Dan’s original site; never interpolate form submissions here.
 import { poolModels, poolModelFacets, comparePoolModels } from "../data/pools.js";
 import galleryPhotos from "../data/gallery.json" with { type: "json" };
+import { privacyPage } from "./privacy.js";
 
       function waterCareProductSection() {
         const products = [
@@ -269,6 +270,11 @@ export const pages = {
       primaryHref: "/contact/?topic=Pool%20service%20or%20repair#contact-inquiry",
       primaryLabel: "Ask about seasonal service",
       render: seasonalInquiryPage
+    },
+    "privacy-policy": {
+      title: "Privacy Policy | Paradise Pools",
+      description: "Read how Paradise Pools handles website inquiries and pool owner feedback, the services that process information, and how to contact us about privacy.",
+      render: privacyPage
     },
     contact: {
       title: "Contact Paradise Pools | Pool Quotes & Service Inquiries",

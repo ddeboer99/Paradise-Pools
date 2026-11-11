@@ -18,7 +18,7 @@ export function quoteForm(compact = false) {
       <label>Phone number <span>*</span><input name="phone" type="tel" autocomplete="tel" maxlength="40" required></label>
       <label>I'm interested in <span>*</span><select name="interest" required><option value="" disabled selected>Choose a topic</option>${options(inquiryTopics)}</select></label>
       <label class="form-wide">How can we help? <span>*</span><textarea name="message" rows="4" maxlength="5000" required placeholder="A little about your pool or project..."></textarea></label>
-      <p class="form-privacy">Your message will be emailed to the Paradise Pools service team so we can respond to your inquiry.</p>
+      <p class="form-privacy">Your message will be emailed to the Paradise Pools service team so we can respond to your inquiry. <a href="/privacy-policy/">Read our privacy policy</a>.</p>
       ${protection('contact')}
     </div>
   </form>`;
@@ -33,7 +33,7 @@ export function poolReviewSection(models) {
       <label>Pool model<select name="model" required><option value="" disabled selected>Choose a model</option>${models.map(model => `<option value="${model.id}">${model.name}</option>`).join('')}</select></label>
       <label>Your rating<select name="rating" required><option value="" disabled selected>Choose a rating</option>${options(ratings)}</select></label>
       <label class="review-wide">Your pool story<textarea name="review" rows="4" maxlength="5000" required placeholder="What do you enjoy about your pool?"></textarea></label>
-      <p class="review-consent">Your feedback goes privately to the Paradise Pools service team. We will ask permission before sharing it publicly.</p>
+      <p class="review-consent">Your feedback goes privately to the Paradise Pools service team. We will ask permission before sharing it publicly. <a href="/privacy-policy/">Read our privacy policy</a>.</p>
       ${protection('feedback')}
       <div class="review-public-links"><a href="https://www.google.com/maps/search/?api=1&query=Paradise+Pools+Elkhart+Indiana" target="_blank" rel="noreferrer">Elkhart customer reviews <span aria-hidden="true">&#8599;</span></a><a href="https://www.google.com/maps/search/?api=1&query=Paradise+Pools+Granger+Indiana" target="_blank" rel="noreferrer">Granger customer reviews <span aria-hidden="true">&#8599;</span></a></div>
     </form>

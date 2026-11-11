@@ -668,3 +668,37 @@ body[data-route="seasonal-service"] .service-callout .text-link { margin-top: 22
   .seasonal-intro { padding-bottom: 42px; }
   .seasonal-planning { padding-top: 42px; }
 }
+
+/* Readable policy text within Paradise Pools' existing type and color system. */
+.policy-heading { padding: 72px 9% 48px; }
+.policy-heading h1 { margin: 0 0 22px; font-size: clamp(42px, 5vw, 64px); line-height: 1.1; }
+.policy-intro { max-width: 700px; color: var(--muted); font-size: 16px; line-height: 1.8; }
+.policy-draft { max-width: 760px; margin: 28px 0 0; padding: 18px 22px; border-left: 3px solid var(--coral); background: var(--paper-deep); font-size: 13px; line-height: 1.7; }
+.policy-draft strong, .policy-draft span { display: block; }
+.policy-draft span { margin-top: 4px; color: var(--muted); }
+.policy-layout { display: grid; grid-template-columns: 220px minmax(0, 760px); gap: 7%; align-items: start; padding: 16px 9% 90px; }
+.policy-nav { position: sticky; top: 120px; }
+.policy-nav .eyebrow { margin-bottom: 12px; }
+.policy-nav a { display: flex; align-items: center; min-height: 44px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 12px; line-height: 1.5; }
+.policy-nav a:hover { color: var(--coral-dark); }
+.policy-content { min-width: 0; font-size: 15px; line-height: 1.85; overflow-wrap: anywhere; }
+.policy-content section + section { margin-top: 42px; padding-top: 32px; border-top: 1px solid var(--line); }
+.policy-content h2 { margin: 0 0 20px; font-size: clamp(28px, 3vw, 38px); line-height: 1.2; }
+.policy-content h3 { margin: 28px 0 14px; font-size: 17px; line-height: 1.5; }
+.policy-content p, .policy-content ul { margin-bottom: 20px; }
+.policy-content ul { padding-left: 22px; }
+.policy-content li + li { margin-top: 12px; }
+.policy-content a, .form-privacy a, .review-consent a { text-decoration: underline; text-underline-offset: 3px; }
+.policy-content address { margin-bottom: 20px; font-style: normal; }
+@media (max-width: 900px) {
+  .policy-heading { padding: 48px 7% 34px; }
+  .policy-layout { grid-template-columns: 1fr; gap: 40px; padding: 0 7% 64px; }
+  .policy-nav { position: static; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; }
+  .policy-nav .eyebrow { grid-column: 1 / -1; }
+}
+@media (max-width: 480px) {
+  .policy-heading { padding-top: 40px; }
+  .policy-content { font-size: 15px; }
+  .policy-draft { padding: 16px; }
+  .policy-nav { column-gap: 16px; }
+}
