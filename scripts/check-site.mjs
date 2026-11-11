@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFile, access } from 'node:fs/promises';
 import { routePaths } from '../src/data/routes.js';
+import { poolModels, comparePoolModels } from '../src/data/pools.js';
 
 // Check the built pages, not just their source templates. This is a local
 // migration regression check; the full legacy URL map remains a launch gate.
@@ -48,6 +49,27 @@ for (const [path, html] of documents) {
     assert.ok(paths.has(target.pathname), `${path}: internal link ${href} has a built page`);
     if (target.hash) assert.ok(documents.get(target.pathname).includes(`id="${decodeURIComponent(target.hash.slice(1))}"`), `${path}: anchor ${href} exists`);
   }
+}
+// These destinations existed on the live WordPress site. They must remain
+// present even if no new navigation link happens to reference the fragment.
+const retainedAnchors = {
+  '/pool-construction/': ['rectangle', 'freeform', 'tanning-ledges', 'spas', 'color-finish', 'tile-options'],
+  '/service/': ['automatic-pool-covers', 'equipment-repair', 'pool-inspections'],
+};
+for (const [path, ids] of Object.entries(retainedAnchors)) {
+  for (const id of ids) assert.ok(documents.get(path).includes(`id="${id}"`), `${path}#${id}: retained legacy section`);
+}
+const builtModelOrder = [...documents.get('/pool-construction/').matchAll(/data-model-id="([^"]+)"/g)].map(match => match[1]);
+assert.deepEqual(builtModelOrder, [...poolModels].sort((a, b) => comparePoolModels(a, b)).map(model => model.id), 'Initial catalog order must match the client default to keep lower anchor targets stable');
+for (const [path, phone, address] of [
+  ['/elkhart-store/', '+15742642488', '655 County Road 17, Suite 11'],
+  ['/granger-store/', '+15742776444', '15065 State Road 23'],
+]) {
+  const html = documents.get(path);
+  assert.ok(html, `${path}: retained store page`);
+  assert.ok(html.includes(`href="tel:${phone}"`) && html.includes(address), `${path}: store contact details`);
+  assert.ok(html.includes('id="store-details"'), `${path}: hours/directions anchor`);
+  assert.ok(documents.get('/locations/').includes(`href="${path}"`), `${path}: linked from location overview`);
 }
 const sitemap = await readFile('dist/sitemap.xml', 'utf8');
 for (const path of paths) assert.ok(sitemap.includes(`<loc>${origin}${path}</loc>`), `${path}: in sitemap`);

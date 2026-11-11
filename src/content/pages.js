@@ -1,7 +1,7 @@
 import { quoteForm, poolReviewSection } from "./forms.js";
 import { localizeImages } from "./images.js";
 // Trusted HTML templates migrated from Dan’s original site; never interpolate form submissions here.
-import { poolModels, poolModelFacets } from "../data/pools.js";
+import { poolModels, poolModelFacets, comparePoolModels } from "../data/pools.js";
 
       function waterCareProductSection() {
         const products = [
@@ -165,9 +165,10 @@ export const pages = {
           <section class="section additional-services">
             <p class="eyebrow">More ways we can help</p><h2>Support between seasons.</h2>
             ${serviceCards([
-              { title: "Equipment repair", copy: "We service pumps, heaters, filters, cleaners, automatic covers, salt systems and more.", href: "/contact/", link: "Request a repair" },
+              { id: "automatic-pool-covers", title: "Automatic pool covers", copy: "Paradise Pools installs and services Coverstar automatic pool covers. Explore cover options or ask our team about your existing system.", href: "/automatic-covers/", link: "Explore pool covers" },
+              { id: "equipment-repair", title: "Equipment repair", copy: "We service pumps, heaters, filters, cleaners, automatic covers, salt systems and more.", href: "/equipment/", link: "Explore equipment repair" },
               { title: "Replacement liners", copy: "Paradise Pools replaces more than 50 vinyl liners a year, with experienced measuring and fitting.", href: "/contact/", link: "Ask about liner replacement" },
-              { title: "Pool inspections", copy: "Buying or selling a home with an in-ground pool? Arrange an inspection with a qualified technician.", href: "/contact/", link: "Request an inspection" }
+              { id: "pool-inspections", title: "Pool inspections", copy: "Buying or selling a home with an in-ground pool? Arrange an inspection with a qualified technician.", href: "/contact/", link: "Request an inspection" }
             ])}
           </section>
           <section class="service-callout"><div><p class="eyebrow light">Elkhart & Granger</p><h2>Reserve your<br>2027 service.</h2></div><div><p>Call the store closest to you to confirm dates, cover arrangements and service details.</p><a class="callout-phone" href="tel:${elkhart.tel}">Elkhart ${elkhart.phone}</a><a class="callout-phone" href="tel:${granger.tel}">Granger ${granger.phone}</a><a class="button button-coral" href="/contact/">Send a service inquiry <span aria-hidden="true">&#8594;</span></a></div></section>`;
@@ -223,6 +224,26 @@ export const pages = {
       imageAlt: "Outdoor swimming pool in summer",
       render: retailStoresPage
     },
+    "elkhart-store": {
+      title: "Elkhart Store | Paradise Pools",
+      description: "Visit Paradise Pools at 655 County Road 17, Suite 11 in Elkhart. Find seasonal store hours, directions, water testing and pool supplies.",
+      eyebrow: "Retail location · Elkhart, Indiana",
+      heading: "Your Elkhart\npool store.",
+      intro: "Visit our Elkhart team on County Road 17 for pool supplies, water testing and equipment advice. We're open in both the swimming season and the winter months, with seasonal hours below.",
+      image: cleanPhoto,
+      imageAlt: "Clear swimming pool water",
+      render: () => retailLocationPage(elkhart)
+    },
+    "granger-store": {
+      title: "Granger Store | Paradise Pools",
+      description: "Visit Paradise Pools at 15065 State Road 23 in Granger. Find directions and seasonal hours. The Granger store is closed November through March.",
+      eyebrow: "Retail location · Granger, Indiana",
+      heading: "Your Granger\npool store.",
+      intro: "Our Granger store on State Road 23 helps with pool supplies and water care during the swimming season. Hours change in August, and the store is closed November through March.",
+      image: cleanPhoto,
+      imageAlt: "Clear swimming pool water",
+      render: () => retailLocationPage(granger)
+    },
     contact: {
       title: "Contact Paradise Pools | Pool Quotes & Service Inquiries",
       description: "Request a pool project quote or pool service from Paradise Pools. Call our Elkhart or Granger stores, or send us a message.",
@@ -237,6 +258,8 @@ export const pages = {
 
   const elkhart = {
     name: "Elkhart",
+    route: "elkhart-store",
+    path: "/elkhart-store/",
     phone: "(574) 264-2488",
     tel: "+15742642488",
     address: "655 County Road 17, Suite 11",
@@ -246,6 +269,8 @@ export const pages = {
   };
   const granger = {
     name: "Granger",
+    route: "granger-store",
+    path: "/granger-store/",
     phone: "(574) 277-6444",
     tel: "+15742776444",
     address: "15065 State Road 23",
@@ -258,15 +283,15 @@ export const pages = {
     return `<a class="${className}" href="${href}">${text}</a>`;
   }
 
-  function hero(page, isHome = false) {
+  function hero(page, isHome = false, location = elkhart) {
     if (isHome) {
       return `<section class="home-hero" style="--hero-image:url('${poolPhoto}')"><div class="hero-shade"></div><div class="home-hero-inner"><p class="eyebrow light">Pool construction, service & supply · Michiana</p><h1>Make room<br>for <em>summer.</em></h1><p class="hero-copy">Thoughtful pool construction and dependable local care. Paradise Pools has been part of Michiana summers since 1963.</p><div class="hero-actions"><a class="button button-coral" href="/pool-construction/">Explore new pools <span aria-hidden="true">&#8594;</span></a><a class="button button-ghost" href="/service/">Pool service</a></div><div class="hero-proof"><span class="proof-number">1,500+</span><span>in-ground pools built<br>right here in Michiana</span></div></div><div class="hero-side-note"><span>EST. 1963</span><span>Family time starts here</span></div></section>`;
     }
-    return `<section class="page-hero${page === pages["pool-service"] ? " pool-service-hero" : ""}"><div class="page-hero-copy"><p class="eyebrow">${page.eyebrow}</p><h1>${page.heading.replace("\n", "<br>")}</h1><p class="hero-copy">${page.intro}</p><div class="hero-actions"><a class="button button-dark" href="/contact/">Let's talk <span aria-hidden="true">&#8594;</span></a><a class="phone-inline" href="tel:${elkhart.tel}">Call Elkhart ${elkhart.phone}</a></div></div><div class="page-hero-image" style="--hero-image:url('${page.image}')"><span class="image-caption">${page.imageAlt}</span><span class="image-index">PARADISE POOLS · Michiana</span></div></section>`;
+    return `<section class="page-hero${page === pages["pool-service"] ? " pool-service-hero" : ""}"><div class="page-hero-copy"><p class="eyebrow">${page.eyebrow}</p><h1>${page.heading.replace("\n", "<br>")}</h1><p class="hero-copy">${page.intro}</p><div class="hero-actions"><a class="button button-dark" href="${page === pages[location.route] ? '#store-details' : '/contact/'}">${page === pages[location.route] ? 'Hours & directions' : "Let's talk"} <span aria-hidden="true">&#8594;</span></a><a class="phone-inline" href="tel:${location.tel}">Call ${location.name} ${location.phone}</a></div></div><div class="page-hero-image" style="--hero-image:url('${page.image}')"><span class="image-caption">${page.imageAlt}</span><span class="image-index">PARADISE POOLS · Michiana</span></div></section>`;
   }
 
   function serviceCards(items) {
-    return `<div class="service-grid">${items.map((item, index) => `<article class="service-card"><span class="card-index">0${index + 1}</span><h3>${item.title}</h3><p>${item.copy}</p>${link(item.href, item.link || "Learn more")}</article>`).join("")}</div>`;
+    return `<div class="service-grid${items.length === 4 ? ' service-grid-pairs' : ''}">${items.map((item, index) => `<article class="service-card"${item.id ? ` id="${item.id}"` : ''}><span class="card-index">0${index + 1}</span><h3>${item.title}</h3><p>${item.copy}</p>${link(item.href, item.link || "Learn more")}</article>`).join("")}</div>`;
   }
 
   function trustBand() {
@@ -284,7 +309,9 @@ export const pages = {
   }
 
   function modelGallery() {
-    const cards = poolModels.map((model) => {
+    // Match the initial browser order so hydration does not move the sections
+    // below the catalog after a visitor arrives through an older anchor link.
+    const cards = [...poolModels].sort((a, b) => comparePoolModels(a, b)).map((model) => {
       const facets = poolModelFacets(model);
       const depthRanges = facets.depthRanges.map(([minimum, maximum]) => `${minimum},${maximum}`).join(";");
       return `<article class="pool-model-card${model.featuredOrder ? " pool-model-card-featured" : ""}" data-model-id="${model.id}" data-featured-order="${model.featuredOrder || ""}" data-shapes="${facets.shapes.join(",")}" data-lengths="${facets.lengths.join(",")}" data-depth-ranges="${depthRanges}" data-features="${facets.features.join(",")}"><a href="${model.url}" target="_blank" rel="noreferrer">${model.featuredOrder ? `<span class="model-featured-label">Most popular</span>` : ""}<img src="${model.image}" alt="Latham ${model.name} fiberglass pool" loading="lazy"><span class="model-name">${model.name}</span></a><div class="model-details"><p><strong>Type</strong><span>${model.type}</span></p><p><strong>Sizes</strong><span>${model.sizes}</span></p><p><strong>Dimensions</strong><span>${model.dimensions}</span></p><p><strong>Features</strong><span>${model.features}</span></p></div><label class="model-compare-toggle"><input type="checkbox" value="${model.id}" aria-label="Add ${model.name} to pool comparison"><span>Add to compare</span></label><a class="text-link" href="${model.url}" target="_blank" rel="noreferrer">View Latham specifications <span aria-hidden="true">&#8599;</span></a></article>`;
@@ -292,8 +319,20 @@ export const pages = {
     return `<div class="pool-catalog-intro"><div><p class="eyebrow">A good place to start</p><h3>Most popular pools</h3></div><p>Start with these customer favorites, then explore the full range to find a shape and size that suits your backyard.</p></div><div class="pool-catalog-toolbar" aria-label="Filter and sort pool models"><label class="pool-filter-search">Search<input type="search" data-pool-filter="search" placeholder="Model, size or feature"></label><label>Shape<select data-pool-filter="shape"><option value="">All shapes</option><option value="rectangular">Rectangular</option><option value="freeform">Freeform</option><option value="plunge">Plunge</option></select></label><label>Size<select data-pool-filter="size"><option value="">Any size</option><option value="small">Up to 25 ft</option><option value="medium">Over 25 to 35 ft</option><option value="large">Over 35 ft</option></select></label><label>Depth<select data-pool-filter="depth"><option value="">Any depth</option><option value="5">Maximum 5 ft</option><option value="6">Maximum 6 ft</option><option value="7">Maximum 7 ft</option><option value="over-7">Includes depth over 7 ft</option></select></label><label>Feature<select data-pool-filter="feature"><option value="">Any feature</option><option value="tanning-ledge">Tanning ledge</option><option value="spa">Built-in spa</option><option value="swim-up-seating">Swim-up seating</option><option value="auto-cover">Auto-cover ready</option><option value="swim-lane">Swim lane</option><option value="wading-area">Wading area</option></select></label><label>Sort by<select data-pool-filter="sort"><option value="recommended">Recommended</option><option value="name">Name A to Z</option><option value="smallest">Smallest option</option><option value="largest">Largest option</option><option value="shallowest">Shallowest maximum depth</option><option value="deepest">Deepest maximum depth</option></select></label><button class="pool-filter-reset" type="button" data-clear-pool-filters>Clear filters</button></div><div class="pool-catalog-status"><p data-pool-results aria-live="polite">Showing ${poolModels.length} models</p></div><div class="pool-model-grid">${cards}</div><p class="pool-no-results" data-pool-empty hidden>No pools match those filters. Try changing or clearing your selections.</p><p class="model-size-note">Size and depth filters match the same listed pool size within a collection. Feature availability varies by model and option; confirm your selected combination with our team. Collections without listed depths are excluded when filtering by depth. Latham dimensions and water volumes may vary by up to 3%; measurements refer to the outside edge of the pool. Confirm current specifications and backyard fit with Paradise Pools.</p>`;
   }
 
+  function poolShapeGuide() {
+    return `<section class="section pool-shape-guide" aria-labelledby="pool-shapes-title">
+      <p class="eyebrow">Pool designs & styles</p><h2 id="pool-shapes-title">Find your shape.<br>Make it your own.</h2>
+      ${serviceCards([
+        { id: "rectangle", title: "Rectangular pools", copy: "Explore straight-sided Latham designs, including Olympia and Apollo. Use the catalog's Rectangular shape filter to compare models, sizes and listed features.", href: "#pool-models", link: "Browse pool models" },
+        { id: "freeform", title: "Freeform pools", copy: "Prefer a curved outline? The catalog includes freeform designs such as Aruba. Choose Freeform in the shape filter to explore the available models.", href: "#pool-models", link: "Browse freeform options" },
+        { id: "tanning-ledges", title: "Tanning ledges", copy: "Several models in our catalog include a tanning ledge. Use the Tanning ledge feature filter, then confirm the dimensions and options for your selected pool with our team.", href: "#pool-models", link: "Explore models with ledges" },
+        { id: "spas", title: "Pools with spas", copy: "Explore built-in spa options in the Astoria collection and selected Axiom models. Check the individual model's specifications and talk with our team about the combination that fits your plans.", href: "#pool-models", link: "Explore pool and spa options" }
+      ])}
+    </section>`;
+  }
+
   function fiberglassPoolPage() {
-    return `${hero(pages["new-pools"])}${trustBand()}<section class="section fiberglass-intro"><div><p class="eyebrow">Our focus: Latham fiberglass</p><h2>One-piece strength.<br>Made for your backyard.</h2><p>Paradise Pools specializes in installing Latham fiberglass pools, with a range of shapes from clean-lined rectangles to relaxed freeforms. Choose a model, then personalize the look and features with our team.</p></div><div class="fiberglass-aside"><strong>Since 1963</strong><p>Local pool construction experience, with more than 1,500 in-ground pools built across Michiana.</p></div></section><section class="section model-section"><p class="eyebrow">Explore Latham fiberglass models</p><h2>Different shapes.<br>Same Latham craftsmanship.</h2>${modelGallery()}<p class="model-disclaimer">Model availability, dimensions and features can vary. Ask Paradise Pools about current Latham options for your site.</p></section><section class="upgrade-section"><div class="upgrade-heading"><p class="eyebrow light">Personalize your pool</p><h2>Latham upgrades<br>& available options</h2><p>Build your pool around how you want to use it. Final selections depend on model, site conditions and project scope.</p></div><div class="upgrade-grid"><div><strong>Lighting</strong><span>Extend the swim and set the evening mood.</span></div><div><strong>Heaters & heat pumps</strong><span>Choose heating equipment for your comfort and season.</span></div><div><strong>Slides</strong><span>Add a playful feature where the layout allows.</span></div><div><strong>Automatic pool cleaners</strong><span>Explore cleaner options to simplify regular upkeep.</span></div><div><strong>Water features</strong><span>Consider a waterfall, fountain or other feature.</span></div><div><strong>Salt system options</strong><span>Discuss saltwater-compatible equipment and setup.</span></div><div><strong>Finishes & colors</strong><span>Compare Latham fiberglass finishes and color choices.</span></div><div><strong>Concrete deck</strong><span>Plan the deck area around access, seating and circulation.</span></div><div><strong>Additional concrete</strong><span>Extra concrete can be discussed and is an additional cost.</span></div></div><p class="upgrade-note">Options and compatibility vary by pool model, site and equipment package. We'll review what's available for your project.</p></section><section class="section vinyl-note"><div><p class="eyebrow">Already have a vinyl liner pool?</p><h2>Liner replacement is a service.</h2><p>We replace more than 50 vinyl liners each year. Learn about liner replacement and our other pool services.</p><a class="button button-dark" href="/service/">Explore pool service <span aria-hidden="true">&#8594;</span></a></div></section><section class="bottom-cta"><div><p class="eyebrow">Ready when you are</p><h2>Let's plan your Latham pool.</h2></div><a class="button button-dark" href="/contact/">Request a fiberglass pool quote <span aria-hidden="true">&#8594;</span></a></section>`;
+    return `${hero(pages["new-pools"])}${trustBand()}<section class="section fiberglass-intro"><div><p class="eyebrow">Our focus: Latham fiberglass</p><h2>One-piece strength.<br>Made for your backyard.</h2><p>Paradise Pools specializes in installing Latham fiberglass pools, with a range of shapes from clean-lined rectangles to relaxed freeforms. Choose a model, then personalize the look and features with our team.</p></div><div class="fiberglass-aside"><strong>Since 1963</strong><p>Local pool construction experience, with more than 1,500 in-ground pools built across Michiana.</p></div></section>${poolShapeGuide()}<section class="section model-section" id="pool-models"><p class="eyebrow">Explore Latham fiberglass models</p><h2>Different shapes.<br>Same Latham craftsmanship.</h2>${modelGallery()}<p class="model-disclaimer">Model availability, dimensions and features can vary. Ask Paradise Pools about current Latham options for your site.</p></section><section class="upgrade-section" id="tile-options"><div class="upgrade-heading"><p class="eyebrow light">Personalize your pool</p><h2>Latham upgrades<br>& available options</h2><p>Build your pool around how you want to use it. Final selections depend on model, site conditions and project scope.</p></div><div class="upgrade-grid"><div><strong>Lighting</strong><span>Extend the swim and set the evening mood.</span></div><div><strong>Heaters & heat pumps</strong><span>Choose heating equipment for your comfort and season.</span></div><div><strong>Slides</strong><span>Add a playful feature where the layout allows.</span></div><div><strong>Automatic pool cleaners</strong><span>Explore cleaner options to simplify regular upkeep.</span></div><div><strong>Water features</strong><span>Consider a waterfall, fountain or other feature.</span></div><div><strong>Salt system options</strong><span>Discuss saltwater-compatible equipment and setup.</span></div><div id="color-finish"><strong>Finishes & colors</strong><span>Compare Latham fiberglass finishes and color choices with our team. Final selections depend on your pool model and current availability.</span></div><div><strong>Tile & mosaics</strong><span>Ask about tile and mosaic options when planning your pool. We will confirm compatible choices for your selected model and finish.</span></div><div><strong>Concrete deck</strong><span>Plan the deck area around access, seating and circulation.</span></div><div><strong>Additional concrete</strong><span>Extra concrete can be discussed and is an additional cost.</span></div></div><p class="upgrade-note">Options and compatibility vary by pool model, site and equipment package. We'll review what's available for your project.</p></section><section class="section vinyl-note"><div><p class="eyebrow">Already have a vinyl liner pool?</p><h2>Liner replacement is a service.</h2><p>We replace more than 50 vinyl liners each year. Learn about liner replacement and our other pool services.</p><a class="button button-dark" href="/service/">Explore pool service <span aria-hidden="true">&#8594;</span></a></div></section><section class="bottom-cta"><div><p class="eyebrow">Ready when you are</p><h2>Let's plan your Latham pool.</h2></div><a class="button button-dark" href="/contact/">Request a fiberglass pool quote <span aria-hidden="true">&#8594;</span></a></section>`;
   }
 
   function equipmentPage() {
@@ -415,8 +454,33 @@ export const pages = {
       <section class="home-cta"><div><p class="eyebrow light">The right pool is personal</p><h2>Let's plan your<br>Latham pool.</h2></div><div><p>Tell us about your backyard and we'll help you explore Olympia, Apollo and the options that fit your home.</p><a class="button button-coral" href="/pool-construction/">Explore pool models <span aria-hidden="true">&#8594;</span></a></div></section>${reviewSection()}`;
   }
 
-  function locationCard(location) {
-    return `<article class="location-card"><div class="location-card-top"><p class="eyebrow">Paradise Pools · ${location.name}</p><h2>${location.name}</h2><a class="location-phone" href="tel:${location.tel}">${location.phone}</a></div><address>${location.address}<br>${location.city}</address><a class="text-link" href="${location.directions}" target="_blank" rel="noreferrer">Get directions <span aria-hidden="true">&#8599;</span></a><div class="location-hours"><h3>Store hours</h3>${location.hours.map((hour) => `<p>${hour}</p>`).join("")}</div></article>`;
+  function locationCard(location, detail = false) {
+    return `<article class="location-card"><div class="location-card-top"><p class="eyebrow">Paradise Pools · ${location.name}</p><h2>${location.name}</h2><a class="location-phone" href="tel:${location.tel}">${location.phone}</a></div><address>${location.address}<br>${location.city}</address><a class="text-link" href="${location.directions}" target="_blank" rel="noreferrer">Get directions <span aria-hidden="true">&#8599;</span></a><div class="location-hours"><h3>Store hours</h3>${location.hours.map((hour) => `<p>${hour}</p>`).join("")}</div>${detail ? '' : `<a class="text-link location-details-link" href="${location.path}">Visit our ${location.name} store page <span aria-hidden="true">&#8594;</span></a>`}</article>`;
+  }
+
+  function retailLocationPage(location) {
+    const other = location === elkhart ? granger : elkhart;
+    const seasonalNote = location === elkhart
+      ? "Our Elkhart store is open Monday–Friday and Saturday during April–October. From November–March, visit Tuesday–Friday or Saturday; we are closed Sunday and Monday. Check the hours alongside this note before making the trip."
+      : "Visit Granger Monday–Friday or Saturday during April–July. From August–October, the store is closed on Mondays as well as Sundays. Granger is closed November–March; our Elkhart store has winter hours if you need help during the off season.";
+    return `${hero(pages[location.route], false, location)}
+      <section class="locations-grid store-location-detail" id="store-details" aria-label="${location.name} store hours and contact details">
+        ${locationCard(location, true)}
+        <div class="store-visit-copy"><p class="eyebrow">Plan your visit</p><h2>${location === elkhart ? 'Here through<br>every season.' : 'Your stop for<br>swimming season.'}</h2>
+          <p>${seasonalNote}</p><p>Bring a water sample for on-site testing, or call ahead about product availability and holiday hours.</p>
+          <a class="text-link" href="mailto:service@thinkparadisepools.com">Email our service team <span aria-hidden="true">&#8594;</span></a>
+          <a class="text-link" href="/contact/">Send a pool or service inquiry <span aria-hidden="true">&#8594;</span></a>
+          <a class="text-link" href="${other.path}">${location === granger ? 'See Elkhart winter hours' : 'See our Granger store'} <span aria-hidden="true">&#8594;</span></a>
+          <a class="text-link" href="/locations/">View both retail locations <span aria-hidden="true">&#8594;</span></a>
+        </div>
+      </section>
+      <section class="section store-services"><p class="eyebrow">Pool, water & equipment know-how</p><h2>How can we help?</h2>
+        ${serviceCards([
+          { title: 'Water care & supplies', copy: 'Explore BioGuard and Mineral Springs water care, and bring your questions to our retail team.', href: '/pool-chemicals/', link: 'Explore water care' },
+          { title: 'Pool service', copy: 'Plan openings and closings, ask about liner replacement, or arrange help with an existing pool.', href: '/service/', link: 'Explore pool service' },
+          { title: 'Equipment advice', copy: 'Get guidance on pool pumps, filters, heaters and other equipment that needs attention.', href: '/equipment/', link: 'Explore equipment help' }
+        ])}
+      </section>`;
   }
 
   function contactPage() {

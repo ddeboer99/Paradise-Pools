@@ -1,6 +1,10 @@
 ---
 import { routePaths } from '../data/routes.js';
 const { route } = Astro.props;
+const isStorePage = route === 'elkhart-store' || route === 'granger-store';
+const phone = route === 'granger-store'
+  ? { tel: '+15742776444', display: '(574) 277-6444' }
+  : { tel: '+15742642488', display: '(574) 264-2488' };
 const links = [
   ['new-pools', 'New pools'], ['pool-service', 'Pool service'],
   ['automatic-covers', 'Pool covers'], ['equipment', 'Equipment'],
@@ -14,9 +18,9 @@ const links = [
     <img class="brand-logo" src="/assets/paradise-pools-logo.png" alt="Paradise Pools" width="300" height="257" />
   </a>
   <nav class="desktop-nav" aria-label="Main navigation">
-    {links.map(([id, label]) => <a href={routePaths[id]} class:list={{ active: route === id }} aria-current={route === id ? 'page' : undefined}>{label}</a>)}
+    {links.map(([id, label]) => <a href={routePaths[id]} class:list={{ active: route === id || (id === 'locations' && isStorePage) }} aria-current={route === id ? 'page' : undefined}>{label}</a>)}
   </nav>
-  <a class="header-call" href="tel:+15742642488"><span>Talk with our team</span><strong>(574) 264-2488</strong></a>
+  <a class="header-call" href={`tel:${phone.tel}`}><span>Talk with our team</span><strong>{phone.display}</strong></a>
   <a class="header-contact" href="/contact/">Contact <span aria-hidden="true">&#8594;</span></a>
   <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobile-navigation"><span></span><span></span></button>
   <nav class="mobile-nav" id="mobile-navigation" aria-label="Mobile navigation" hidden>

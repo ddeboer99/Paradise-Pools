@@ -72,7 +72,7 @@ The handlers validate fields and request size, verify Turnstile on the server, c
 - `public/assets/`: supplied logo and optimized website images. Original source URLs remain in the content and image manifest for provenance.
 - `legacy/`: original four files retained unchanged for reference. The original version is also at commit `aacd93c` on `main`. These files are not deployed by Astro.
 
-Astro generates the nine views as complete HTML pages. Small browser scripts add interactions; they no longer assemble the entire website after loading.
+Astro generates the nine supplied views plus the retained Elkhart and Granger store pages as complete HTML pages. Small browser scripts add interactions; they no longer assemble the entire website after loading.
 
 ## Updating images
 
@@ -100,8 +100,8 @@ The November 11 local head start is authorized. Hold the new branch off GitHub u
 - The nine-page Astro foundation, supplied logo, ordinary page/section navigation, and scroll-stable mobile menu are implemented locally.
 - Catalog parsing, combined size/depth filters, feature matching, and depth sorting are corrected and regression-tested against the supplied data. This is not a manufacturer specification audit: feature tags remain collection-level, and collections without known depths are excluded when filtering by depth.
 - Both forms now use Pages Functions with server-side validation, Turnstile verification, and Resend handling. Real accounts/keys, sending-domain verification, and actual inbox delivery tests remain outstanding. Never put a Resend key in browser code.
-- All nine pages have local layout checks at 320, 390, 620, 768, 901, 1024, 1100 and 1440 pixels. Narrow-screen catalog controls, headings, navigation and About-page labels are corrected; forms use larger controls, and scrollable tables have keyboard access. Real iPhone/Android checks, a full accessibility audit, and content/metadata review remain open.
-- Existing separate store pages and other legacy URLs must be reconciled before launch. The current sitemap only lists the nine converted views; it is not the final migration inventory.
+- The original nine pages have local layout checks at 320, 390, 620, 768, 901, 1024, 1100 and 1440 pixels. Narrow-screen catalog controls, headings, navigation and About-page labels are corrected; forms use larger controls, and scrollable tables have keyboard access. Real iPhone/Android checks, a full accessibility audit, and content/metadata review remain open.
+- The existing `/elkhart-store/` and `/granger-store/` paths are retained locally, with distinct contact details, seasonal hours, canonical URLs, sitemap entries, and links from Locations and the footer. The original construction/service section IDs also reach relevant visible content. Other legacy routes, WordPress query redirects, media and approved content still need reconciliation; the eleven-page sitemap is not the final migration inventory.
 - All builds default to `noindex, nofollow`. Only set `PUBLIC_SITE_INDEXABLE=true` for the approved production build after the launch checks pass. Leave it unset/false for previews; inspect the generated HTML and hosting headers before connecting the domain.
 - Hosting/domain ownership, email handover, real form delivery, legacy redirects, backup/rollback, and post-launch Search Console checks remain open.
 - The supplied images now load locally with responsive sizes, dimensions and lazy loading where appropriate. Their largest variants total about 26% fewer bytes than the downloaded originals; this is an asset-size comparison, not a measured page-speed score. Fonts still load from Google Fonts. Image rights, fonts, production caching and field performance remain part of launch review.

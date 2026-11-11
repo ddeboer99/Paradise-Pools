@@ -9,5 +9,7 @@ export const routePaths = {
   "chemicals": "/pool-chemicals/",
   "about-us": "/about-us/",
   "locations": "/locations/",
+  "elkhart-store": "/elkhart-store/",
+  "granger-store": "/granger-store/",
   "contact": "/contact/"
 };
