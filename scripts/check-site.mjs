@@ -3,6 +3,7 @@ import { readFile, access } from 'node:fs/promises';
 import { routePaths } from '../src/data/routes.js';
 import { poolModels, comparePoolModels } from '../src/data/pools.js';
 import galleryPhotos from '../src/data/gallery.json' with { type: 'json' };
+import { legacyShortlinks } from '../src/data/legacy-shortlinks.js';
 
 // Check the built pages, not just their source templates. This is a local
 // migration regression check; the full legacy URL map remains a launch gate.
@@ -86,6 +87,16 @@ assert.ok(seasonal, 'Retain the existing seasonal page address');
 assert.ok(seasonal.includes('href="/contact/?topic=Pool%20service%20or%20repair#contact-inquiry"'), 'Seasonal inquiries use the existing contact flow');
 assert.ok(!seasonal.includes('<form'), 'Seasonal page does not introduce a separate contract or ordering form');
 for (const path of paths) assert.ok(sitemap.includes(`<loc>${origin}${path}</loc>`), `${path}: in sitemap`);
+// A future content edit must not leave a configured shortcut pointing at 404.
+for (const [id, path] of Object.entries(legacyShortlinks)) {
+  assert.ok(paths.has(path), `WordPress ?p=${id}: retained destination exists`);
+  assert.ok(sitemap.includes(`<loc>${origin}${path}</loc>`), `WordPress ?p=${id}: destination in sitemap`);
+}
+const functionRoutes = JSON.parse(await readFile('dist/_routes.json', 'utf8'));
+assert.deepEqual(functionRoutes.include, ['/', '/api/*'], 'Only homepage shortcuts and form APIs invoke Pages Functions');
+assert.deepEqual(functionRoutes.exclude, [], 'Confirmed function paths are not excluded');
+const staticRedirects = (await readFile('dist/_redirects', 'utf8')).split('\n').map(line => line.trim()).filter(line => line && !line.startsWith('#'));
+assert.deepEqual(staticRedirects, ['/sitemap_index.xml /sitemap.xml 301', '/page-sitemap.xml /sitemap.xml 301'], 'Only approved sitemap aliases are explicit static redirects');
 const notFound = await readFile('dist/404.html', 'utf8');
 assert.match(notFound, /noindex/);
 assert.ok(!notFound.includes('rel="canonical"'));

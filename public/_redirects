@@ -1,0 +1,7 @@
+# Confirmed legacy sitemap aliases. The sitemap remains a preview draft.
+/sitemap_index.xml /sitemap.xml 301
+/page-sitemap.xml /sitemap.xml 301
+
+# Retained directory pages use Pages' native permanent slash normalization.
+# WordPress ?p= links are handled by functions/index.js, not this file.
+# Do not add homepage catch-alls or redirects for unresolved legacy pages.
