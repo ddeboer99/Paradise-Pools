@@ -127,21 +127,21 @@ Omit `--base` for file integrity/decoding only. The command accepts loopback hos
 5. When sharing is authorized, push the branch and open a pull request for review before merging into `main`.
 6. After a merge, switch to `main` and pull. Resolve conflicts together; do not force-push or overwrite the other person's work.
 
-Collaborator access alone does not enforce approval. Configure the review process separately. GitHub does not share unsaved edits. Once the setup below is activated, pushing or merging into `main` publishes the preview automatically; a local save or commit by itself does not deploy.
+Collaborator access alone does not enforce approval. Configure the review process separately. GitHub does not share unsaved edits. Pushing or merging into `main` publishes the preview automatically; a local save or commit by itself does not deploy.
 
 ## Automatic Cloudflare Pages preview deployments
 
 The November 24 setup uses **GitHub Actions → Wrangler → Cloudflare Pages** in Dan's account. GitHub's Cloudflare app is not required for this route. Bryan and Dan can both edit in VS Code, commit and push to the same repository; the `main` push runs the deployment workflow. Other branches do not publish this preview.
 
-**Setup status:** workflow prepared; activation awaits Dan's Cloudflare email verification, Bryan's accepted administrator invitation, creation of the Pages project, and repository secrets. A successful Actions run and the deployed checks must confirm activation before relying on automatic publishing.
+**Preview:** [paradise-pools-dan-preview.pages.dev](https://paradise-pools-dan-preview.pages.dev/). Dan owns the Pages project, Bryan's administrator invitation is accepted, and the repository deployment secrets are configured. The business domain is not connected. Check the [deployment workflow](https://github.com/ddeboer99/Paradise-Pools/actions/workflows/deploy-preview.yml) for the result of each push.
 
-One-time setup:
+Completed setup, retained here for maintenance:
 
-1. In Dan's verified Cloudflare account, invite Bryan's existing login as administrator and accept that invitation. Keep Dan's access.
-2. Create a **Pages Direct Upload** project named `paradise-pools-dan-preview`, with production branch `main`, in Dan's account. Do not connect a custom domain or change DNS. The platform calls its default branch "production" even though this is a noindex review site.
-3. Create a Cloudflare API token with **Account → Cloudflare Pages → Edit**, restricted to Dan's account. Add it as the **repository Actions secret** `CLOUDFLARE_API_TOKEN`. Add `CLOUDFLARE_ACCOUNT_ID` for the same account. Never commit the token or place it in a `PUBLIC_` variable.
-4. Merge the reviewed Astro work and workflow into `main`, then watch **GitHub → Actions → Deploy Cloudflare Pages preview**. The workflow checks Dan's account ID before deployment, builds with `PUBLIC_SITE_INDEXABLE=false`, and deploys both `dist` and the root `functions/` handlers through Wrangler.
-5. Confirm the automatic deployment and its read-only smoke checks. The intended stable preview URL is `https://paradise-pools-dan-preview.pages.dev/`; it is not confirmed live until setup succeeds.
+1. Dan and Bryan both retain administrator access to Dan's verified Cloudflare account.
+2. The **Pages Direct Upload** project `paradise-pools-dan-preview` uses production branch `main`. Do not connect a custom domain or change DNS without launch approval. The platform calls its default branch "production" even though this is a noindex review site.
+3. Bryan's deployment token has only **Account → Cloudflare Pages → Edit**, restricted to Dan's account. It is stored as the **repository Actions secret** `CLOUDFLARE_API_TOKEN`, alongside `CLOUDFLARE_ACCOUNT_ID`. If the token is rotated or Bryan's access is removed, replace this secret with an authorized token of the same scope. Never commit the token or place it in a `PUBLIC_` variable.
+4. The Astro source and workflow are on `main`. The workflow checks Dan's account ID before deployment, builds with `PUBLIC_SITE_INDEXABLE=false`, and deploys both `dist` and the root `functions/` handlers through Wrangler.
+5. Read-only checks verify the uploaded deployment. They retry temporary network/5xx failures while a new deployment propagates, but still fail for incorrect content, redirects, missing noindex instructions, or persistent errors.
 
 For later changes: pull first, edit, preview/test, commit, and push to `main` (or merge a reviewed branch). Wait for the Actions result before saying the update is deployed. The **Run workflow** button can retry deployment from `main`; pushing another branch does not deploy. Dan can use VS Code's Source Control push/sync or Copilot to help with edits; the same GitHub workflow handles publishing.
 

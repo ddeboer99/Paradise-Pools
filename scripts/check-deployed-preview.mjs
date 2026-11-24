@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
+import { setTimeout as delay } from 'node:timers/promises';
 import { routePaths } from '../src/data/routes.js';
 import { legacyShortlinks } from '../src/data/legacy-shortlinks.js';
 import legacyMedia from '../src/data/legacy-media.json' with { type: 'json' };
@@ -12,8 +13,20 @@ assert.equal(base.pathname, '/');
 assert.equal(base.search + base.hash + base.username + base.password + base.port, '');
 
 async function get(path) {
-  const response = await fetch(new URL(path, base), { redirect: 'manual', signal: AbortSignal.timeout(30_000) });
-  return response;
+  // A new Pages hostname can briefly return 522 while deployment propagates.
+  // Retry transport/5xx failures only; content, redirect and noindex checks stay strict.
+  for (let attempt = 1; attempt <= 6; attempt++) {
+    try {
+      const response = await fetch(new URL(path, base), { redirect: 'manual', signal: AbortSignal.timeout(30_000) });
+      if (response.status < 500 || attempt === 6) return response;
+      await response.body?.cancel();
+      console.log(`${path}: transient HTTP ${response.status}; retrying (${attempt}/6).`);
+    } catch (error) {
+      if (attempt === 6) throw error;
+      console.log(`${path}: connection not ready; retrying (${attempt}/6).`);
+    }
+    await delay(5_000);
+  }
 }
 function noindex(response, path) {
   assert.match(response.headers.get('x-robots-tag') || '', /\bnoindex\b/, `${path}: noindex response header`);
