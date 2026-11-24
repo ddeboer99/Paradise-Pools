@@ -110,6 +110,10 @@ for (const [id, path] of Object.entries(legacyShortlinks)) {
 const functionRoutes = JSON.parse(await readFile('dist/_routes.json', 'utf8'));
 assert.deepEqual(functionRoutes.include, ['/', '/api/*'], 'Only homepage shortcuts and form APIs invoke Pages Functions');
 assert.deepEqual(functionRoutes.exclude, [], 'Confirmed function paths are not excluded');
+const previewHeaders = await readFile('dist/_headers', 'utf8');
+for (const host of [':project.pages.dev', ':deployment.:project.pages.dev']) {
+  assert.ok(previewHeaders.includes(`https://${host}/*\n  X-Robots-Tag: noindex, nofollow`), `${host}: preview header is deployed`);
+}
 const staticRedirects = (await readFile('dist/_redirects', 'utf8')).split('\n').map(line => line.trim()).filter(line => line && !line.startsWith('#'));
 assert.deepEqual(staticRedirects, ['/sitemap_index.xml /sitemap.xml 301', '/page-sitemap.xml /sitemap.xml 301'], 'Only approved sitemap aliases are explicit static redirects');
 const notFound = await readFile('dist/404.html', 'utf8');

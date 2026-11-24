@@ -1,6 +1,6 @@
 # Paradise Pools
 
-Website source owned by Dan's GitHub account. The local `bryan/astro-local` branch begins the Astro conversion of his original design. It is a work in progress, not a production-ready release.
+Website source owned by Dan's GitHub account. The Astro version preserves his supplied design. It remains a review preview, not an approved launch on the business domain.
 
 ## Local preview
 
@@ -92,7 +92,7 @@ WordPress IDs `6141`, `6745` and `6173` still need content decisions for program
 - `tests/`: pool-filter, legacy-shortlink and form-handler regression tests with mocked email providers.
 - `src/styles/site.css`: existing design styles and scoped responsive/accessibility fixes.
 - `public/assets/`: supplied logo and optimized website images. Original source URLs remain in the content and image manifest for provenance.
-- `legacy/`: original four files retained unchanged for reference. The original version is also at commit `aacd93c` on `main`. These files are not deployed by Astro.
+- `legacy/`: original four files retained unchanged for reference. The original version is also preserved at commit `aacd93c`. These files are not deployed by Astro.
 
 Astro currently generates 14 complete HTML pages: the nine supplied views plus retained store, gallery, seasonal-service and privacy pages. Small browser scripts add interactions; they no longer assemble the entire website after loading.
 
@@ -127,11 +127,31 @@ Omit `--base` for file integrity/decoding only. The command accepts loopback hos
 5. When sharing is authorized, push the branch and open a pull request for review before merging into `main`.
 6. After a merge, switch to `main` and pull. Resolve conflicts together; do not force-push or overwrite the other person's work.
 
-Collaborator access alone does not enforce approval. Configure the review process separately. GitHub does not share unsaved edits or deploy this site automatically.
+Collaborator access alone does not enforce approval. Configure the review process separately. GitHub does not share unsaved edits. Once the setup below is activated, pushing or merging into `main` publishes the preview automatically; a local save or commit by itself does not deploy.
+
+## Automatic Cloudflare Pages preview deployments
+
+The November 24 setup uses **GitHub Actions → Wrangler → Cloudflare Pages** in Dan's account. GitHub's Cloudflare app is not required for this route. Bryan and Dan can both edit in VS Code, commit and push to the same repository; the `main` push runs the deployment workflow. Other branches do not publish this preview.
+
+**Setup status:** workflow prepared; activation awaits Dan's Cloudflare email verification, Bryan's accepted administrator invitation, creation of the Pages project, and repository secrets. A successful Actions run and the deployed checks must confirm activation before relying on automatic publishing.
+
+One-time setup:
+
+1. In Dan's verified Cloudflare account, invite Bryan's existing login as administrator and accept that invitation. Keep Dan's access.
+2. Create a **Pages Direct Upload** project named `paradise-pools-dan-preview`, with production branch `main`, in Dan's account. Do not connect a custom domain or change DNS. The platform calls its default branch "production" even though this is a noindex review site.
+3. Create a Cloudflare API token with **Account → Cloudflare Pages → Edit**, restricted to Dan's account. Add it as the **repository Actions secret** `CLOUDFLARE_API_TOKEN`. Add `CLOUDFLARE_ACCOUNT_ID` for the same account. Never commit the token or place it in a `PUBLIC_` variable.
+4. Merge the reviewed Astro work and workflow into `main`, then watch **GitHub → Actions → Deploy Cloudflare Pages preview**. The workflow checks Dan's account ID before deployment, builds with `PUBLIC_SITE_INDEXABLE=false`, and deploys both `dist` and the root `functions/` handlers through Wrangler.
+5. Confirm the automatic deployment and its read-only smoke checks. The intended stable preview URL is `https://paradise-pools-dan-preview.pages.dev/`; it is not confirmed live until setup succeeds.
+
+For later changes: pull first, edit, preview/test, commit, and push to `main` (or merge a reviewed branch). Wait for the Actions result before saying the update is deployed. The **Run workflow** button can retry deployment from `main`; pushing another branch does not deploy. Dan can use VS Code's Source Control push/sync or Copilot to help with edits; the same GitHub workflow handles publishing.
+
+The workflow runs existing tests, builds all pages, checks retained media and metadata, then checks the uploaded deployment's noindex headers/meta, canonical URLs, legacy redirects, 404 and both Functions. Form checks use GET only and never send email. Real Turnstile/Resend configuration and inbox testing remain separate launch tasks. The workflow deliberately leaves the public Turnstile key empty, so forms remain disabled during review.
+
+Static `public/_headers` rules and `functions/_middleware.js` keep all `*.pages.dev` review hosts noindex even after a future approved custom-domain launch. These instructions discourage search indexing; they do not password-protect the public preview. The approved domain launch will require a deliberate build/workflow update and completed launch review. See [Cloudflare's GitHub Actions deployment guide](https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/).
 
 ## Current stage and launch gates
 
-The `bryan/astro-local` development branch is authorized for sharing and review. It is not an approved production release. Review and merge separately; do not connect production hosting or change DNS as part of preview work.
+The Astro work is authorized for sharing and for a noindex Pages preview in Dan's Cloudflare account, including automatic deployment from `main`. This is not approval to connect the business domain, change DNS, or launch the replacement live site.
 
 - The nine-page Astro foundation, supplied logo, ordinary page/section navigation, and scroll-stable mobile menu are implemented locally.
 - Catalog parsing, combined size/depth filters, feature matching, and depth sorting are corrected and regression-tested against the supplied data. This is not a manufacturer specification audit: feature tags remain collection-level, and collections without known depths are excluded when filtering by depth.

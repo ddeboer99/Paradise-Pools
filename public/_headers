@@ -1,0 +1,7 @@
+# Keep both the stable Pages URL and individual deployment URLs out of search.
+# These host-specific rules can remain when the approved custom domain launches.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex, nofollow
+
+https://:deployment.:project.pages.dev/*
+  X-Robots-Tag: noindex, nofollow
